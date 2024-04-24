@@ -713,7 +713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $ 0
+  m_text: 0RON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -833,15 +833,16 @@ MonoBehaviour:
   nameText: {fileID: 8891794903796259112}
   price: 0
   priceText: {fileID: 1706986593981657716}
-  calculateRentAuto: 0
+  calculateRentAuto: 1
   currentRent: 0
   baseRent: 0
   rentWithHouses: 
-  mortgageImage: {fileID: 0}
+  mortgageImage: {fileID: 2974091872208998258}
+  propertyImage: {fileID: 8740736155095119786}
   isMortgaged: 0
   mortgageValue: 0
-  ownerBar: {fileID: 0}
-  ownerText: {fileID: 0}
+  ownerBar: {fileID: 212836554723940289}
+  ownerText: {fileID: 8761905254068451696}
 --- !u!1 &8517818489292382368
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,7 +994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1940125020362413014
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1041,7 +1042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 571020172, guid: f4b07809c785ccc499e61e17221f9a4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

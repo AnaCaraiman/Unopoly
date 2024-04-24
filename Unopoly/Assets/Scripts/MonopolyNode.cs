@@ -34,6 +34,7 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] internal int[] rentWithHouses;
     [Header("Property Mortgage")]
     [SerializeField] GameObject mortgageImage;
+    [SerializeField] GameObject propertyImage;
     [SerializeField] bool isMortgaged;
     [SerializeField] int mortgageValue;
     [Header("Property Owner")]
@@ -78,7 +79,7 @@ public class MonopolyNode : MonoBehaviour
 
         if (priceText != null)
         {
-            priceText.text = "$ " + price;
+            priceText.text = price + "RON";
         }
         //update the owner
     }
@@ -88,6 +89,7 @@ public class MonopolyNode : MonoBehaviour
     {
         isMortgaged = true;
         mortgageImage.SetActive(true);
+        propertyImage.SetActive(false);
         return mortgageValue;
     }
 
@@ -95,6 +97,7 @@ public class MonopolyNode : MonoBehaviour
     {
         isMortgaged = false;
         mortgageImage.SetActive(false);
+        propertyImage.SetActive(true);
     }
 
     public bool IsMortgaged => isMortgaged;
