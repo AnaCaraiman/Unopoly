@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -708,6 +708,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 0
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!1001 &305335586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2077,6 +2091,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 52871362}
     m_Modifications:
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: price
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: baseRent
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: calculateRentAuto
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[1]
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[2]
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[3]
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[4]
+      value: 375
+      objectReference: {fileID: 0}
     - target: {fileID: 8685319655207536, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Color.b
       value: 0.38039216
@@ -2112,6 +2162,10 @@ PrefabInstance:
     - target: {fileID: 866931517248751082, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706986593981657716, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: m_text
+      value: $ 90
       objectReference: {fileID: 0}
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
@@ -2880,6 +2934,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 7
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!114 &891538828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2892,6 +2960,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 7
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!1001 &929422061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3608,9 +3690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262148438049483749, guid: 594bafd49fdcad847ad03e753052e7d7, type: 3}
       propertyPath: m_text
-      value: 'Income Tax
-
-'
+      value: Income Tax
       objectReference: {fileID: 0}
     - target: {fileID: 5565518910592856310, guid: 594bafd49fdcad847ad03e753052e7d7, type: 3}
       propertyPath: m_Sprite
@@ -3925,6 +4005,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 8
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!1 &1252448139
 GameObject:
   m_ObjectHideFlags: 0
@@ -4286,6 +4380,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 6
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!1 &1491913444
 GameObject:
   m_ObjectHideFlags: 0
@@ -4467,6 +4575,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b354c9bfcf329c4eadf126621834938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monopolyNodeType: 9
+  name: 
+  nameText: {fileID: 0}
+  price: 0
+  priceText: {fileID: 0}
+  calculateRentAuto: 0
+  currentRent: 0
+  baseRent: 0
+  rentWithHouses: 
+  mortgageImage: {fileID: 0}
+  isMortgaged: 0
+  mortgageValue: 0
+  ownerBar: {fileID: 0}
+  ownerText: {fileID: 0}
 --- !u!1 &1539821016
 GameObject:
   m_ObjectHideFlags: 0
@@ -5852,6 +5974,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 52871362}
     m_Modifications:
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: name
+      value: Whatever Road
+      objectReference: {fileID: 0}
     - target: {fileID: 8685319655207536, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Color.b
       value: 0.4627451
@@ -5891,6 +6017,10 @@ PrefabInstance:
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
       value: Property Node (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891794903796259112, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: m_text
+      value: Whatever Road
       objectReference: {fileID: 0}
     - target: {fileID: 9182128912434603014, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7053,6 +7183,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 52871362}
     m_Modifications:
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: price
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: baseRent
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: mortgageValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: calculateRentAuto
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[1]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[2]
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[3]
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: -8262601466890767816, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: rentWithHouses.Array.data[4]
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 8685319655207536, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Color.b
       value: 0.38039216
@@ -7088,6 +7258,10 @@ PrefabInstance:
     - target: {fileID: 866931517248751082, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706986593981657716, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: m_text
+      value: $ 60
       objectReference: {fileID: 0}
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
@@ -7204,9 +7378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5262148438049483749, guid: 594bafd49fdcad847ad03e753052e7d7, type: 3}
       propertyPath: m_text
-      value: 'Income Tax
-
-'
+      value: Income Tax
       objectReference: {fileID: 0}
     - target: {fileID: 5565518910592856310, guid: 594bafd49fdcad847ad03e753052e7d7, type: 3}
       propertyPath: m_Sprite
