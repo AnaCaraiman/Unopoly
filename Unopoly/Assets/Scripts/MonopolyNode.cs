@@ -153,6 +153,6 @@ public class MonopolyNode : MonoBehaviour
 
     void ContinueGame()
     {
-        //GameManager.instance.SwitchPlayer();
+        GameManager.instance.SwitchPlayer();
     }
 }
