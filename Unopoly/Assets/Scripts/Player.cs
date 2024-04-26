@@ -29,7 +29,7 @@ public class Player
     //return info
     public bool IsInJail => isInJail;
     public GameObject MyToken => myToken;
-    public MonopolyNode myMonopolyNode => currentNode;
+    public MonopolyNode MyMonopolyNode => currentNode;
 
     public void Init(MonopolyNode startNode, int startMoney, PlayerInfo info)
     {
@@ -37,6 +37,18 @@ public class Player
         money = startMoney;
         myInfo = info;
         myInfo.SetPlayerNameAndCash(playerName, money);
+    }
+
+    public void SetMyCurrentNode(MonopolyNode node)
+    {
+        currentNode = node;
+        node.PlayerLandedOnNode(this);
+    }
+
+    public void CollectMoney(int amount)
+    {
+        money += amount;
+        myInfo.SetPlayerCash(money);
     }
 
 }
