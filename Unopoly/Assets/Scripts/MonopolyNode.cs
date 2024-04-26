@@ -38,6 +38,7 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] bool isMortgaged;
     [SerializeField] int mortgageValue;
     [Header("Property Owner")]
+    public Player owner;
     [SerializeField] GameObject ownerBar;
     [SerializeField] TMP_Text ownerText;
 
@@ -82,22 +83,37 @@ public class MonopolyNode : MonoBehaviour
             priceText.text = price + "RON";
         }
         //update the owner
+        OnOwnerUpdated();
+        MortgageProperty();
+        //isMortgaged = false;
     }
 
     //mortgage content
     public int MortgageProperty()
     {
         isMortgaged = true;
-        mortgageImage.SetActive(true);
-        propertyImage.SetActive(false);
+        if (mortgageImage != null)
+        {
+            mortgageImage.SetActive(true);
+        }
+        if (propertyImage != null)
+        {
+            propertyImage.SetActive(false);
+        }
         return mortgageValue;
     }
 
     public void UnMortgageProperty()
     {
         isMortgaged = false;
-        mortgageImage.SetActive(false);
-        propertyImage.SetActive(true);
+        if(mortgageImage != null)
+        {
+            mortgageImage.SetActive(false);
+        }
+        if(propertyImage != null)
+        {
+            propertyImage.SetActive(true);
+        }
     }
 
     public bool IsMortgaged => isMortgaged;
@@ -108,10 +124,10 @@ public class MonopolyNode : MonoBehaviour
     {
         if (ownerBar != null)
         {
-            if(ownerText.text != "")
+            if(ownerName != "")
             {
                 ownerBar.SetActive(true);
-                //ownerText.text = owner.name;
+                ownerText.text = owner.name;
             }
             else
             {
@@ -119,5 +135,24 @@ public class MonopolyNode : MonoBehaviour
                 ownerText.text = "";
             }
         }
+    }
+
+    public void PlayerLandedOnNode(Player player)
+    {
+        bool playerIsHuman = player.playerType == Player.PlayerType.Human;
+
+        if(!playerIsHuman)
+        {
+            Invoke("ContinueGame", 2f);
+        }
+        else
+        {
+
+        }
+    }
+
+    void ContinueGame()
+    {
+        GameManager.instance.SwitchPlayer();
     }
 }
