@@ -12,7 +12,11 @@ public class MonopolyBoard : MonoBehaviour
         route.Clear();
         foreach (Transform node in transform.GetComponentInChildren<Transform>())
         {
-            route.Add(node.GetComponent<MonopolyNode>());
+            MonopolyNode monopolyNode = node.GetComponent<MonopolyNode>();
+            if (monopolyNode != null)
+            {
+                route.Add(monopolyNode);
+            }
         }
     }
 
@@ -25,8 +29,11 @@ public class MonopolyBoard : MonoBehaviour
                 Vector3 current = route[i].transform.position;
                 Vector3 next = (i + 1 < route.Count) ? route[i + 1].transform.position : current;
 
-                Gizmos.color= Color.red;
-                Gizmos.DrawLine(current, next);
+                if (route[i] != null)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(current, next);
+                }
             }
         }
     }
