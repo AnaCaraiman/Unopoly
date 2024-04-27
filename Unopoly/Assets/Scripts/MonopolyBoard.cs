@@ -21,14 +21,7 @@ public class MonopolyBoard : MonoBehaviour
                 route.Add(monopolyNode);
             }
         }
-        //update all node colors 
-        for (int i = 0; i < nodeSetList.Count; i++)
-        {
-            for (int j = 0; j < nodeSetList[i].nodesInSetList.Count; j++)
-            {
-                nodeSetList[i].nodesInSetList[j].UpdateColorField(nodeSetList[i].setColor);
-            }
-        }
+       
     }
 
     void OnDrawGizmos()
