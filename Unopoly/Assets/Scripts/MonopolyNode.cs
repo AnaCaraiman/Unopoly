@@ -124,10 +124,10 @@ public class MonopolyNode : MonoBehaviour
     {
         if (ownerBar != null)
         {
-            if(ownerName != "")
+            if(owner.playerName != "")
             {
                 ownerBar.SetActive(true);
-                ownerText.text = owner.name;
+                ownerText.text = owner.playerName;
             }
             else
             {
@@ -147,7 +147,7 @@ public class MonopolyNode : MonoBehaviour
         }
         else
         {
-
+            //show ui
         }
     }
 
