@@ -4683,23 +4683,11 @@ MonoBehaviour:
   playerList:
   - playerType: 1
     playerName: AI_Tina
-    myToken: {fileID: 0}
+    myToken: {fileID: 8702093483643533492, guid: 2534882651c616247a85b7c8e0363b5b, type: 3}
     myMonopolyNodes: []
   - playerType: 1
     playerName: AI_Bob
-    myToken: {fileID: 0}
-    myMonopolyNodes: []
-  - playerType: 1
-    playerName: AI_Bob
-    myToken: {fileID: 0}
-    myMonopolyNodes: []
-  - playerType: 1
-    playerName: AI_Bob
-    myToken: {fileID: 0}
-    myMonopolyNodes: []
-  - playerType: 1
-    playerName: AI_Bob
-    myToken: {fileID: 0}
+    myToken: {fileID: 6141679949222912251, guid: a2cd6fb63b6ea25499201722d940e87d, type: 3}
     myMonopolyNodes: []
   currentPlayer: 0
   maxTurnsInJail: 3
