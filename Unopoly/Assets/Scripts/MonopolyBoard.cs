@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MonopolyBoard : MonoBehaviour
 {
 
     public List<MonopolyNode> route = new List<MonopolyNode>();
+
 
    void OnValidate()
     {
@@ -17,6 +19,14 @@ public class MonopolyBoard : MonoBehaviour
             if (monopolyNode != null)
             {
                 route.Add(monopolyNode);
+            }
+        }
+        //update all node colors 
+        for (int i = 0; i < nodeSetList.Count; i++)
+        {
+            for (int j = 0; j < nodeSetList[i].nodesInSetList.Count; j++)
+            {
+                nodeSetList[i].nodesInSetList[j].UpdateColorField(nodeSetList[i].setColor);
             }
         }
     }

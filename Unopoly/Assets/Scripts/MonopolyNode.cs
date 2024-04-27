@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using UnityEngine.UI;
 
 public enum MonopolyNodeType
 {
@@ -21,6 +22,7 @@ public enum MonopolyNodeType
 public class MonopolyNode : MonoBehaviour
 {
     public MonopolyNodeType monopolyNodeType;
+    [SerializeField] Image propertyColorField;
     [Header("Property Name")]
     [SerializeField] internal new string name;
     [SerializeField] TMP_Text nameText;
@@ -32,6 +34,7 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] int currentRent;
     [SerializeField] internal int baseRent;
     [SerializeField] internal int[] rentWithHouses;
+    int numberOfHouses;
     [Header("Property Mortgage")]
     [SerializeField] GameObject mortgageImage;
     [SerializeField] GameObject propertyImage;
@@ -88,6 +91,12 @@ public class MonopolyNode : MonoBehaviour
         //isMortgaged = false;
     }
 
+    public void UpdateColorField(Color color)
+    { if (propertyColorField != null) 
+        { 
+        propertyColorField.color = color; 
+        }
+    }
     //mortgage content
     public int MortgageProperty()
     {
@@ -141,6 +150,85 @@ public class MonopolyNode : MonoBehaviour
     {
         bool playerIsHuman = player.playerType == Player.PlayerType.Human;
 
+        //check for node type
+
+        switch (monopolyNodeType)
+        {
+            case MonopolyNodeType.Property:
+                if (!playerIsHuman)//AI
+                {
+                    // if it owned && if we not are the owner && if it is not mortgaged
+                    if (owner.name != "" && owner != currentPlayer && !isMortgaged)
+                    { //pay rent to somebody
+
+                      //calculate the rent
+                      int rentToPay = CalculatePropertyRent();
+
+                      //pay the rent to the owner
+                      //show a message about what happened
+                    }
+                    else if (owner.name == "" /*&& if can afford*/ )
+                    {// buy th node
+
+                        //show a mesage
+
+                    }
+                    else 
+                    { //is unowned and cant afford it 
+                        
+                    }
+                }
+                else//human
+                { 
+                    // if it owned && if we not are the owner && if it is not mortgaged
+                    if (owner.name != "" && owner != currentPlayer && !isMortgaged)
+                    { //pay rent to somebody
+                      //calculate the rent
+                      //pay the rent to the owner
+                      //show a message about what happened
+                    }
+                    else if (owner.name == "")
+                    {   
+                        // show buy interface for propwert
+
+                     
+
+                    }
+                    else
+                    { //is unowned and cant afford it 
+
+                    }
+
+                }
+            break;
+
+            case MonopolyNodeType.Utility:
+
+                break;
+            case MonopolyNodeType.Railroad:
+
+                break;
+            case MonopolyNodeType.Tax:
+
+                break;
+            case MonopolyNodeType.FreeParking:
+
+                break;
+            case MonopolyNodeType.GoToJail:
+
+                break;
+            case MonopolyNodeType.Chance:
+
+                break;
+            case MonopolyNodeType.CommunityChest:
+
+                break;
+        }
+        
+        
+        
+        
+        //continue
         if(!playerIsHuman)
         {
             Invoke("ContinueGame", 2f);
@@ -154,5 +242,40 @@ public class MonopolyNode : MonoBehaviour
     void ContinueGame()
     {
         GameManager.instance.SwitchPlayer();
+    }
+
+    int CalculatePropertyRent()
+    {
+        switch (numberOfHouses) 
+        {
+            case 0:
+                //check if owner has the full set of this nodes
+                bool allsame = true;
+                if (allsame)
+                {
+                    currentRent = baseRent * 2;
+                }
+                else 
+                {
+                    currentRent = baseRent; 
+                }
+                break;
+            case 1:
+                currentRent = rentWithHouses[0];
+                break;
+            case 2:
+                currentRent = rentWithHouses[1];
+                break;
+            case 3:
+                currentRent = rentWithHouses[2];
+                break;
+            case 4:
+                currentRent = rentWithHouses[3];
+                break;
+            case 5://hotel
+                currentRent = rentWithHouses[4];
+                break;
+        }
+        return currentRent;
     }
 }
