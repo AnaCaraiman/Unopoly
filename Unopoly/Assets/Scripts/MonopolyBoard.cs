@@ -6,7 +6,16 @@ using UnityEngine;
 public class MonopolyBoard : MonoBehaviour
 {
 
-    [SerializeField] List<MonopolyNode> route = new List<MonopolyNode>();
+    public List<MonopolyNode> route = new List<MonopolyNode>();
+
+    [System.Serializable]
+    public class NodeSet
+    { 
+        public List<MonopolyNode> nodesInSetList = new List<MonopolyNode>();
+      
+    }
+
+    [SerializeField] List<NodeSet> nodeSetList = new List<NodeSet>();
 
    void OnValidate()
     {
