@@ -4683,11 +4683,11 @@ MonoBehaviour:
   playerList:
   - playerType: 1
     playerName: AI_Tina
-    myToken: {fileID: 8702093483643533492, guid: 2534882651c616247a85b7c8e0363b5b, type: 3}
+    myToken: {fileID: 0}
     myMonopolyNodes: []
   - playerType: 1
     playerName: AI_Bob
-    myToken: {fileID: 6141679949222912251, guid: a2cd6fb63b6ea25499201722d940e87d, type: 3}
+    myToken: {fileID: 0}
     myMonopolyNodes: []
   currentPlayer: 0
   maxTurnsInJail: 3
@@ -4695,6 +4695,11 @@ MonoBehaviour:
   goMoney: 500
   playerInfoPrefab: {fileID: 1705496203504531437, guid: 1b23d331b5796684dae6f96acb24b4e3, type: 3}
   playerPanel: {fileID: 1790882529}
+  playerTokenList:
+  - {fileID: 6141679949222912251, guid: a2cd6fb63b6ea25499201722d940e87d, type: 3}
+  - {fileID: 1175996898613229953, guid: 7072ab60d650bf147acc8df87e53613b, type: 3}
+  - {fileID: 8702093483643533492, guid: 2534882651c616247a85b7c8e0363b5b, type: 3}
+  - {fileID: 3774178995716351879, guid: 574b59341b079ca489c08b751105df61, type: 3}
 --- !u!1 &1511271328
 GameObject:
   m_ObjectHideFlags: 0
