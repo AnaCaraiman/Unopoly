@@ -41,6 +41,15 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] GameObject ownerBar;
     [SerializeField] TMP_Text ownerText;
 
+
+
+    //drag a community card
+    public delegate void DrawCommunityCard(Player player);
+    public static DrawCommunityCard OnDrawCommunityCard;
+    //drag a chance card
+    public delegate void DrawChanceCard(Player player);
+    public static DrawChanceCard OnDrawChanceCard;
+
     private void OnValidate()
     {
         if (nameText != null)
