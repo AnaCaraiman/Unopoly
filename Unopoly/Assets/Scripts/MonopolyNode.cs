@@ -158,7 +158,7 @@ public class MonopolyNode : MonoBehaviour
                 if (!playerIsHuman)//AI
                 {
                     // if it owned && if we not are the owner && if it is not mortgaged
-                    if (owner.name != "" && owner != currentPlayer && !isMortgaged)
+                    if (owner.playerName != "" && owner != player && !isMortgaged)
                     { //pay rent to somebody
 
                       //calculate the rent
@@ -167,7 +167,7 @@ public class MonopolyNode : MonoBehaviour
                       //pay the rent to the owner
                       //show a message about what happened
                     }
-                    else if (owner.name == "" /*&& if can afford*/ )
+                    else if (owner.playerName == "" /*&& if can afford*/ )
                     {// buy th node
 
                         //show a mesage
@@ -181,13 +181,13 @@ public class MonopolyNode : MonoBehaviour
                 else//human
                 { 
                     // if it owned && if we not are the owner && if it is not mortgaged
-                    if (owner.name != "" && owner != currentPlayer && !isMortgaged)
+                    if (owner.playerName != "" && owner != player && !isMortgaged)
                     { //pay rent to somebody
                       //calculate the rent
                       //pay the rent to the owner
                       //show a message about what happened
                     }
-                    else if (owner.name == "")
+                    else if (owner.playerName == "")
                     {   
                         // show buy interface for propwert
 

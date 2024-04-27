@@ -9,6 +9,13 @@ public class MonopolyBoard : MonoBehaviour
 
     public List<MonopolyNode> route = new List<MonopolyNode>();
 
+    [System.Serializable]
+    public class Node
+    
+    
+    [SerializeField] List<>
+
+
 
    void OnValidate()
     {
