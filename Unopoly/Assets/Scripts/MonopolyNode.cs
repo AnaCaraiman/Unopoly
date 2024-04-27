@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using UnityEngine.UI;
 
 public enum MonopolyNodeType
 {
@@ -21,6 +22,7 @@ public enum MonopolyNodeType
 public class MonopolyNode : MonoBehaviour
 {
     public MonopolyNodeType monopolyNodeType;
+    [SerializeField] Image propertyColorField;
     [Header("Property Name")]
     [SerializeField] internal new string name;
     [SerializeField] TMP_Text nameText;
@@ -89,6 +91,12 @@ public class MonopolyNode : MonoBehaviour
         //isMortgaged = false;
     }
 
+    public void UpdateColorField(Color color)
+    { if (propertyColorField != null) 
+        { 
+        propertyColorField.color = color; 
+        }
+    }
     //mortgage content
     public int MortgageProperty()
     {

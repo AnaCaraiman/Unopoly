@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MonopolyBoard : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class MonopolyBoard : MonoBehaviour
 
     [System.Serializable]
     public class NodeSet
-    { 
+    {
+        public Color setColor= Color.white; 
+        
         public List<MonopolyNode> nodesInSetList = new List<MonopolyNode>();
       
     }
@@ -26,6 +29,14 @@ public class MonopolyBoard : MonoBehaviour
             if (monopolyNode != null)
             {
                 route.Add(monopolyNode);
+            }
+        }
+        //update all node colors 
+        for (int i = 0; i < nodeSetList.Count; i++)
+        {
+            for (int j = 0; j < nodeSetList[i].nodesInSetList.Count; j++)
+            {
+                nodeSetList[i].nodesInSetList[j].UpdateColorField(nodeSetList[i].setColor);
             }
         }
     }
