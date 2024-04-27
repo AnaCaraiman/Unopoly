@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform playerPanel; //for the player info prefabs to become parented to
     [SerializeField] List<GameObject> playerTokenList = new List<GameObject>();
 
+    //rolling dice info
+    int[] rolleDice;
+    bool rolledADouble;
+    int doubleRollCount;
 
     private void Awake()
     {
@@ -46,5 +50,34 @@ public class GameManager : MonoBehaviour
             playerList[i].Init(gameBoard.route[0], startingMoney, info, newToken);
         }
     }
+
+    public void  RollDice() //press button from human or auto ai
+    {
+        //reset last roll
+        rolleDice = new int[2];
+        //any roll dice and store the value
+        rolleDice[0] = Random.Range(1, 7);
+        rolleDice[1] = Random.Range(1, 7);
+        //chance for doubles
+        rolledADouble = rolleDice[0] == rolleDice[1];
+        //throw 3 times in a row -> jail time -> end turn
+
+        //is in jail already
+
+        //can we leave jail
+
+        //move anyhow if allowed
+
+        //show or hide
+
+    }
+
+    IEnumerator DelayBeforeMove()
+    {
+        yield return new WaitForSeconds(2f);
+        //if we are allowed to move -> move
+
+        //else we switch player
+    }    
 
 }
