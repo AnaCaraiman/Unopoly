@@ -9,16 +9,6 @@ public class MonopolyBoard : MonoBehaviour
 
     public List<MonopolyNode> route = new List<MonopolyNode>();
 
-    [System.Serializable]
-    public class NodeSet
-    {
-        public Color setColor= Color.white; 
-        
-        public List<MonopolyNode> nodesInSetList = new List<MonopolyNode>();
-      
-    }
-
-    [SerializeField] List<NodeSet> nodeSetList = new List<NodeSet>();
 
    void OnValidate()
     {
@@ -59,12 +49,12 @@ public class MonopolyBoard : MonoBehaviour
         }
     }
 
-    public void MovePlayerToken(Player player, int steps)
+    public void MovePlayerToken( int steps, Player player)
     {
-        StartCoroutine(MovePlayerInSteps(player, steps));
+        StartCoroutine(MovePlayerInSteps(steps, player));
     }
 
-    IEnumerator MovePlayerInSteps(Player player, int steps)
+    IEnumerator MovePlayerInSteps(int steps, Player player)
     {
         int stepsLeft = steps;
         GameObject tokenToMove = player.MyToken;
@@ -89,12 +79,12 @@ public class MonopolyBoard : MonoBehaviour
         }
         if(moveOverGo)
         {
-            player.CollectMoney(GameManager.instance.GetMoney);
+            //player.CollectMoney(GameManager.instance.GetMoney);
         }
         player.SetMyCurrentNode(route[indexOnBoard]);
     }
 
-    bool MoveToNextNode(GameObject token, Vector3 startPos, Vector3 endPos, float speed)
+    bool MoveToNextNode(GameObject tokenToMove, Vector3 endPos, float speed)
     {
         return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed + Time.deltaTime));
     }
