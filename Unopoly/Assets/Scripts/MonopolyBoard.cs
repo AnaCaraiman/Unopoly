@@ -79,23 +79,47 @@ public class MonopolyBoard : MonoBehaviour
         GameObject tokenToMove = player.MyToken;
         int indexOnBoard = route.IndexOf(player.MyMonopolyNode);
         bool moveOverGo = false;
-        while (stepsLeft>0)
+        bool isMovingForward = steps >0;
+        if(isMovingForward)
         {
-            indexOnBoard++;
-            if (indexOnBoard > route.Count - 1)
+            while (stepsLeft > 0)
             {
-                indexOnBoard = 0;
-                moveOverGo = true;
-            }
+                indexOnBoard++;
+                if (indexOnBoard > route.Count - 1)
+                {
+                    indexOnBoard = 0;
+                    moveOverGo = true;
+                }
 
-            Vector3 startPos = tokenToMove.transform.position;
-            Vector3 endPos = route[indexOnBoard].transform.position;
-            while(MoveToNextNode(tokenToMove,endPos,20))
-            {
-                yield return null;
+                //Vector3 startPos = tokenToMove.transform.position;
+                Vector3 endPos = route[indexOnBoard].transform.position;
+                while (MoveToNextNode(tokenToMove, endPos, 20))
+                {
+                    yield return null;
+                }
+                stepsLeft--;
             }
-            stepsLeft--;
         }
+        else
+        {
+            while (stepsLeft < 0)
+            {
+                indexOnBoard--;
+                if (indexOnBoard < 0)
+                {
+                    indexOnBoard = route.Count - 1;
+                }
+
+                //Vector3 startPos = tokenToMove.transform.position;
+                Vector3 endPos = route[indexOnBoard].transform.position;
+                while (MoveToNextNode(tokenToMove, endPos, 20))
+                {
+                    yield return null;
+                }
+                stepsLeft++;
+            }
+        }   
+        
         if(moveOverGo)
         {
             //player.CollectMoney(GameManager.instance.GetMoney);
