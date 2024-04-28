@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         gameBoard.MovePlayerToken(rolledDice, playerList[currentPlayer]);
         //else we switch player
     }
-    
+
     public void SwitchPlayer()
     {
         currentPlayer++;
@@ -105,5 +105,7 @@ public class GameManager : MonoBehaviour
             //show the roll dice button
         }
     }
+
+    public int[] LastRolledDice => rolledDice;
 
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -366,6 +366,16 @@ MonoBehaviour:
     nodesInSetList:
     - {fileID: 1079577237}
     - {fileID: 305335587}
+  - setColor: {r: 0.01886791, g: 0.018049113, b: 0.01813218, a: 1}
+    nodesInSetList:
+    - {fileID: 6080647861914441407}
+    - {fileID: 861347477}
+  - setColor: {r: 0.01886791, g: 0.018049113, b: 0.01813218, a: 1}
+    nodesInSetList:
+    - {fileID: 2248126623093783002}
+    - {fileID: 929422062}
+    - {fileID: 1887675586}
+    - {fileID: 2146883576}
 --- !u!4 &52871362
 Transform:
   m_ObjectHideFlags: 0
@@ -759,7 +769,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}
@@ -3223,7 +3233,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}
@@ -3251,7 +3261,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}
@@ -4298,7 +4308,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}
@@ -4675,7 +4685,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}
@@ -4906,7 +4916,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 0}
   propertyImage: {fileID: 0}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 0}
   ownerText: {fileID: 0}

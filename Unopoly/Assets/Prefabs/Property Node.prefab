@@ -304,7 +304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1955827935881374083
 RectTransform:
   m_ObjectHideFlags: 0
@@ -840,7 +840,7 @@ MonoBehaviour:
   rentWithHouses: 
   mortgageImage: {fileID: 2974091872208998258}
   propertyImage: {fileID: 8740736155095119786}
-  isMortgaged: 1
+  isMortgaged: 0
   mortgageValue: 0
   ownerBar: {fileID: 212836554723940289}
   ownerText: {fileID: 8761905254068451696}
@@ -995,7 +995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1940125020362413014
 RectTransform:
   m_ObjectHideFlags: 0

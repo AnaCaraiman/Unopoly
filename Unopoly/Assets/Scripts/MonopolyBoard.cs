@@ -82,7 +82,7 @@ public class MonopolyBoard : MonoBehaviour
         while (stepsLeft>0)
         {
             indexOnBoard++;
-            if (indexOnBoard > route.Count + 1)
+            if (indexOnBoard > route.Count - 1)
             {
                 indexOnBoard = 0;
                 moveOverGo = true;
