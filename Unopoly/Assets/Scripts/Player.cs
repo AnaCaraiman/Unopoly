@@ -73,7 +73,7 @@ public class Player
     void SortPropertiesByPrice()
     {        
         myMonopolyNodes.OrderBy(_node => _node.price).ToList();
-       }
+     }
 
     internal void PayRent(int rentAmount, Player owner)
     {//don t have enough money
@@ -86,6 +86,15 @@ public class Player
         //update ui
         myInfo.SetPlayerCash(money);
 
+    }
+    internal void PayMoney(int amount)
+    {
+        if (money < amount)
+        {
+            //handel insufficent funds > AI
+        }
+        money -= amount;
+        myInfo.SetPlayerCash(money);
     }
 
 }

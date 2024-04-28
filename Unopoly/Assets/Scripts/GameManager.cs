@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     int[] rolledDice;
     bool rolledADouble;
     int doubleRollCount;
-
+    //tax poll
+    int taxPool = 0;
     private void Awake()
     {
         instance = this;
@@ -64,8 +65,8 @@ public class GameManager : MonoBehaviour
         //reset last roll
         rolledDice = new int[2];
         //any roll dice and store the value
-        rolledDice[0] = Random.Range(1, 7);
-        rolledDice[1] = Random.Range(1, 7);
+        rolledDice[0] = 2;
+        rolledDice[1] = 2;
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
         //chance for doubles
         rolledADouble = rolledDice[0] == rolledDice[1];
@@ -108,4 +109,16 @@ public class GameManager : MonoBehaviour
 
     public int[] LastRolledDice => rolledDice;
 
+    public void AddTaxToPool(int amount)
+    {
+        taxPool += amount;
+    }
+
+    public int GetTaxPool()
+    {
+        //return the tax pool and reset it
+        int currentTaxCollected = taxPool;
+        taxPool = 0;
+        return currentTaxCollected;
+    }
 }

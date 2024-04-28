@@ -341,9 +341,14 @@ public class MonopolyNode : MonoBehaviour
                 }
                 break;
             case MonopolyNodeType.Tax:
-
+                GameManager.instance.AddTaxToPool(price);
+                player.PayMoney(price);
+                //show a message about what happened
                 break;
             case MonopolyNodeType.FreeParking:
+                int tax = GameManager.instance.GetTaxPool();
+                player.CollectMoney(tax);
+                //show a message about what happened
 
                 break;
             case MonopolyNodeType.GoToJail:
