@@ -171,7 +171,7 @@ public class MonopolyNode : MonoBehaviour
     public void PlayerLandedOnNode(Player player)
     {
         bool playerIsHuman = player.playerType == Player.PlayerType.Human;
-
+        bool continueTurn = true;
         //check for node type
 
         switch (monopolyNodeType)
@@ -361,6 +361,9 @@ public class MonopolyNode : MonoBehaviour
 
                 break;
             case MonopolyNodeType.GoToJail:
+                int indexOnBoard = MonopolyBoard.instance.route.IndexOf(player.MyMonopolyNode);
+                player.GoToJail(indexOnBoard);
+                continueTurn = false;
 
                 break;
             case MonopolyNodeType.Chance:
@@ -370,7 +373,11 @@ public class MonopolyNode : MonoBehaviour
 
                 break;
         }
-        
+        //stop here if needed
+        if(!continueTurn)
+        {
+            return;
+        }
         
         
         
@@ -387,7 +394,18 @@ public class MonopolyNode : MonoBehaviour
 
     void ContinueGame()
     {
-        GameManager.instance.SwitchPlayer();
+        //check if we rolled a double
+        if (GameManager.instance.RolledDouble)
+        {
+            //roll again
+            GameManager.instance.RollDice();
+        }
+        else
+        {
+            //not a double, switch player
+            GameManager.instance.SwitchPlayer();
+
+        }
     }
 
     int CalculatePropertyRent()

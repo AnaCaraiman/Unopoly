@@ -15,9 +15,9 @@ public class Player
     public PlayerType playerType;
     public string playerName;
     int money;
-    MonopolyNode currentNode;
+    MonopolyNode currentnode;
     bool isInJail;
-    int numberOfTurnsInJail;
+    int numTurnsInJail = 0;
     [SerializeField] GameObject myToken;
     [SerializeField] List<MonopolyNode> myMonopolyNodes = new List<MonopolyNode>();
 
@@ -30,11 +30,11 @@ public class Player
     //return info
     public bool IsInJail => isInJail;
     public GameObject MyToken => myToken;
-    public MonopolyNode MyMonopolyNode => currentNode;
+    public MonopolyNode MyMonopolyNode => currentnode;
 
     public void Init(MonopolyNode startNode, int startMoney, PlayerInfo info, GameObject token)
     {
-        currentNode = startNode;
+        currentnode = startNode;
         money = startMoney;
         myInfo = info;
         myInfo.SetPlayerNameAndCash(playerName, money);
@@ -43,7 +43,7 @@ public class Player
 
     public void SetMyCurrentNode(MonopolyNode node)
     {
-        currentNode = node;
+        currentnode = node;
         node.PlayerLandedOnNode(this);
     }
 
@@ -95,6 +95,45 @@ public class Player
         }
         money -= amount;
         myInfo.SetPlayerCash(money);
+    }
+
+
+    public void GoToJail(int indexOnBoard)
+    {
+        isInJail = true;
+        //reposistion player
+        //myToken.transform.position = MonopolyBoard.instance.route[10].transform.position;
+        //currentnode = MonopolyBoard.instance.route[10];
+        MonopolyBoard.instance.MovePlayerToken(CalculateDistanceFromJail(indexOnBoard), this);
+    }
+
+    public void SetOutOfJail()
+    {
+        isInJail = false;
+        numTurnsInJail = 0;
+    }
+
+    int CalculateDistanceFromJail(int indexOnBoard)
+    { 
+        int result = 0;
+        int indexOfJail = 10;
+        if(indexOnBoard > indexOfJail)
+        {
+            result = (indexOnBoard - indexOfJail) * -1;
+        }
+        else
+        {
+            result = (indexOfJail - indexOnBoard);
+        }
+        return result;
+
+    }
+
+    public int NumturnsInJail => numTurnsInJail;
+
+    public void IncreaseNumTurnsInJail()
+    {
+        numTurnsInJail++;
     }
 
 }
