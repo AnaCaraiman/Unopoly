@@ -20,10 +20,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<GameObject> playerTokenList = new List<GameObject>();
 
     //rolling dice info
-    int[] rolleDice;
+    int[] rolledDice;
     bool rolledADouble;
     int doubleRollCount;
-
+    //tax poll
+    int taxPool = 0;
     private void Awake()
     {
         instance = this;
@@ -32,6 +33,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Initialize();
+        if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
+        {
+            RollDice();
+        }
+        else
+        {
+            //show the roll dice button
+        }
     }
 
     void Initialize()
@@ -54,12 +63,13 @@ public class GameManager : MonoBehaviour
     public void  RollDice() //press button from human or auto ai
     {
         //reset last roll
-        rolleDice = new int[2];
+        rolledDice = new int[2];
         //any roll dice and store the value
-        rolleDice[0] = Random.Range(1, 7);
-        rolleDice[1] = Random.Range(1, 7);
+        rolledDice[0] = 2;
+        rolledDice[1] = 2;
+        Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
         //chance for doubles
-        rolledADouble = rolleDice[0] == rolleDice[1];
+        rolledADouble = rolledDice[0] == rolledDice[1];
         //throw 3 times in a row -> jail time -> end turn
 
         //is in jail already
@@ -67,17 +77,48 @@ public class GameManager : MonoBehaviour
         //can we leave jail
 
         //move anyhow if allowed
-
+        StartCoroutine(DelayBeforeMove(rolledDice[0] + rolledDice[1]));
         //show or hide
 
     }
 
-    IEnumerator DelayBeforeMove()
+    IEnumerator DelayBeforeMove(int rolledDice)
     {
         yield return new WaitForSeconds(2f);
         //if we are allowed to move -> move
-
+        gameBoard.MovePlayerToken(rolledDice, playerList[currentPlayer]);
         //else we switch player
-    }    
+    }
 
+    public void SwitchPlayer()
+    {
+        currentPlayer++;
+        if (currentPlayer >= playerList.Count)
+        {
+            currentPlayer = 0;
+        }
+        if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
+        {
+            RollDice();
+        }
+        else
+        {
+            //show the roll dice button
+        }
+    }
+
+    public int[] LastRolledDice => rolledDice;
+
+    public void AddTaxToPool(int amount)
+    {
+        taxPool += amount;
+    }
+
+    public int GetTaxPool()
+    {
+        //return the tax pool and reset it
+        int currentTaxCollected = taxPool;
+        taxPool = 0;
+        return currentTaxCollected;
+    }
 }

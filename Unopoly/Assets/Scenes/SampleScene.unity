@@ -402,6 +402,55 @@ MonoBehaviour:
   - {fileID: 1079577237}
   - {fileID: 1085619317}
   - {fileID: 305335587}
+  nodeSetList:
+  - setColor: {r: 1, g: 0.727207, b: 0.5415094, a: 1}
+    nodesInSetList:
+    - {fileID: 7213252517865769451}
+    - {fileID: 710847959}
+  - setColor: {r: 0.38118035, g: 0, b: 0.4415095, a: 1}
+    nodesInSetList:
+    - {fileID: 1062880259}
+    - {fileID: 1548166223}
+    - {fileID: 2009358915}
+  - setColor: {r: 0.79215693, g: 0.2509804, b: 0.7254902, a: 1}
+    nodesInSetList:
+    - {fileID: 1852796881}
+    - {fileID: 1125391698}
+    - {fileID: 1772634133}
+  - setColor: {r: 0.4156863, g: 0.7137255, b: 0.69411767, a: 1}
+    nodesInSetList:
+    - {fileID: 804279504}
+    - {fileID: 963185451}
+    - {fileID: 857705496}
+  - setColor: {r: 0.98823535, g: 0.8352942, b: 0.45882356, a: 1}
+    nodesInSetList:
+    - {fileID: 363722023}
+    - {fileID: 567633188}
+    - {fileID: 2066458620}
+  - setColor: {r: 0.96470594, g: 0.64705884, b: 0.75294125, a: 1}
+    nodesInSetList:
+    - {fileID: 2079609782}
+    - {fileID: 753850693}
+    - {fileID: 1213752479}
+  - setColor: {r: 0.97647065, g: 0.16470589, b: 0.50980395, a: 1}
+    nodesInSetList:
+    - {fileID: 374874815}
+    - {fileID: 1599610830}
+    - {fileID: 373883618}
+  - setColor: {r: 1, g: 0.45882356, b: 0.5137255, a: 1}
+    nodesInSetList:
+    - {fileID: 1079577237}
+    - {fileID: 305335587}
+  - setColor: {r: 0.01886791, g: 0.018049113, b: 0.01813218, a: 1}
+    nodesInSetList:
+    - {fileID: 6080647861914441407}
+    - {fileID: 861347477}
+  - setColor: {r: 0.01886791, g: 0.018049113, b: 0.01813218, a: 1}
+    nodesInSetList:
+    - {fileID: 2248126623093783002}
+    - {fileID: 929422062}
+    - {fileID: 1887675586}
+    - {fileID: 2146883576}
 --- !u!4 &52871362
 Transform:
   m_ObjectHideFlags: 0
@@ -784,6 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 0
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -2765,7 +2815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1706986593981657716, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_text
-      value: $ 90
+      value: 90RON
       objectReference: {fileID: 0}
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
@@ -3535,6 +3585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 7
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -3562,6 +3613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 7
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -4743,6 +4795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 8
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -5119,6 +5172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 6
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -5533,6 +5587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monopolyNodeType: 9
+  propertyColorField: {fileID: 0}
   name: 
   nameText: {fileID: 0}
   price: 0
@@ -8649,7 +8704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1706986593981657716, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_text
-      value: $ 60
+      value: 60RON
       objectReference: {fileID: 0}
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
