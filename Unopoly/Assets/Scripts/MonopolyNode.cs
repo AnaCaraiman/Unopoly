@@ -35,6 +35,7 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] internal int baseRent;
     [SerializeField] internal List<int> rentWithHouses = new List<int>();
     int numberOfHouses;
+    public int NumberOfHouses => numberOfHouses;
     [Header("Property Mortgage")]
     [SerializeField] GameObject mortgageImage;
     [SerializeField] GameObject propertyImage;
