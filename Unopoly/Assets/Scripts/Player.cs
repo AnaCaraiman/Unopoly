@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class Player
@@ -14,9 +15,9 @@ public class Player
     public PlayerType playerType;
     public string playerName;
     int money;
-    MonopolyNode currentNode;
+    MonopolyNode currentnode;
     bool isInJail;
-    int numberOfTurnsInJail;
+    int numTurnsInJail = 0;
     [SerializeField] GameObject myToken;
     [SerializeField] List<MonopolyNode> myMonopolyNodes = new List<MonopolyNode>();
 
@@ -29,11 +30,11 @@ public class Player
     //return info
     public bool IsInJail => isInJail;
     public GameObject MyToken => myToken;
-    public MonopolyNode MyMonopolyNode => currentNode;
+    public MonopolyNode MyMonopolyNode => currentnode;
 
     public void Init(MonopolyNode startNode, int startMoney, PlayerInfo info, GameObject token)
     {
-        currentNode = startNode;
+        currentnode = startNode;
         money = startMoney;
         myInfo = info;
         myInfo.SetPlayerNameAndCash(playerName, money);
@@ -42,7 +43,7 @@ public class Player
 
     public void SetMyCurrentNode(MonopolyNode node)
     {
-        currentNode = node;
+        currentnode = node;
         node.PlayerLandedOnNode(this);
     }
 
@@ -50,6 +51,89 @@ public class Player
     {
         money += amount;
         myInfo.SetPlayerCash(money);
+    }
+    internal bool CanAffordNode(int price)
+    { 
+        return money >= price;
+    }
+
+    public void BuyProperty(MonopolyNode node)
+    {
+        money = node.price;
+        node.SetOwner(this);
+        //update ui
+        myInfo.SetPlayerCash(money);
+        //set ownership
+        myMonopolyNodes.Add(node);
+        //sort all nodes by price
+        SortPropertiesByPrice();
+    
+    }
+
+    void SortPropertiesByPrice()
+    {        
+        myMonopolyNodes.OrderBy(_node => _node.price).ToList();
+     }
+
+    internal void PayRent(int rentAmount, Player owner)
+    {//don t have enough money
+        if (money < rentAmount)
+        { 
+         //handel insufficent funds > AI
+        }
+        money-= rentAmount;
+       owner.CollectMoney(rentAmount);
+        //update ui
+        myInfo.SetPlayerCash(money);
+
+    }
+    internal void PayMoney(int amount)
+    {
+        if (money < amount)
+        {
+            //handel insufficent funds > AI
+        }
+        money -= amount;
+        myInfo.SetPlayerCash(money);
+    }
+
+
+    public void GoToJail(int indexOnBoard)
+    {
+        isInJail = true;
+        //reposistion player
+        //myToken.transform.position = MonopolyBoard.instance.route[10].transform.position;
+        //currentnode = MonopolyBoard.instance.route[10];
+        MonopolyBoard.instance.MovePlayerToken(CalculateDistanceFromJail(indexOnBoard), this);
+    }
+
+    public void SetOutOfJail()
+    {
+        isInJail = false;
+        numTurnsInJail = 0;
+    }
+
+    int CalculateDistanceFromJail(int indexOnBoard)
+    { 
+        int result = 0;
+        int indexOfJail = 10;
+        if(indexOnBoard > indexOfJail)
+        {
+            result = (indexOnBoard - indexOfJail) * -1;
+        }
+        else
+        {
+            result = (indexOfJail - indexOnBoard);
+        }
+        return result;
+
+    }
+
+    public int NumturnsInJail => numTurnsInJail;
+
+    public void IncreaseNumTurnsInJail()
+    {
+        numTurnsInJail++;
     }
 
 }

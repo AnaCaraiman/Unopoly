@@ -22,7 +22,16 @@ public class GameManager : MonoBehaviour
     //rolling dice info
     int[] rolledDice;
     bool rolledADouble;
+    public bool RolledDouble => rolledADouble;
     int doubleRollCount;
+    //tax poll
+    int taxPool = 0;
+
+    //pass over go to get money
+    public int GetGoMoney => goMoney;
+
+    //debug
+    public bool alwaysRollDouble = false;
 
     private void Awake()
     {
@@ -61,22 +70,84 @@ public class GameManager : MonoBehaviour
 
     public void  RollDice() //press button from human or auto ai
     {
+        bool allowedToMove = true;
         //reset last roll
         rolledDice = new int[2];
         //any roll dice and store the value
-        rolledDice[0] = Random.Range(1, 7);
-        rolledDice[1] = Random.Range(1, 7);
+        rolledDice[0] = Random.Range(1,7);
+        rolledDice[1] = Random.Range(1,7);
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
+
+
+        //debug
+        if (alwaysRollDouble)
+        {
+            rolledDice[0] = 2;
+            rolledDice[1] = 2;
+        }
+
+
         //chance for doubles
         rolledADouble = rolledDice[0] == rolledDice[1];
         //throw 3 times in a row -> jail time -> end turn
 
         //is in jail already
+        if (playerList[currentPlayer].IsInJail)
+        {
+            playerList[currentPlayer].IncreaseNumTurnsInJail();
 
+            //check if we rolled a double
+            if (rolledADouble)
+            {
+                //get out of jail
+                playerList[currentPlayer].SetOutOfJail();
+                doubleRollCount++;
+            }
+            else if (playerList[currentPlayer].NumturnsInJail >= maxTurnsInJail)
+            {
+                playerList[currentPlayer].SetOutOfJail();
+            }
+            else 
+            { 
+                allowedToMove = false;
+            }
+        }
+        else //not in jail
+        {
+            //reset double rolles
+            if(!rolledADouble)
+            {
+                doubleRollCount = 0;
+            }
+            else
+            { 
+                doubleRollCount++;
+                if(doubleRollCount >= 3)
+                {
+                    //move to jail
+                    int indexOnBoard = MonopolyBoard.instance.route.IndexOf(playerList[currentPlayer].MyMonopolyNode);
+                    playerList[currentPlayer].GoToJail(indexOnBoard);
+                    rolledADouble = false; //reset
+                    return;
+                }
+            }
+
+        }
         //can we leave jail
 
         //move anyhow if allowed
-        StartCoroutine(DelayBeforeMove(rolledDice[0] + rolledDice[1]));
+        rolledDice[0] = 5;
+        rolledDice[1] = 5;
+        if (allowedToMove)
+        {
+            StartCoroutine(DelayBeforeMove(rolledDice[0] + rolledDice[1]));
+        }
+        else
+        {
+            //switch player
+            Debug.Log("we can not move");
+            SwitchPlayer();
+        }
         //show or hide
 
     }
@@ -88,10 +159,13 @@ public class GameManager : MonoBehaviour
         gameBoard.MovePlayerToken(rolledDice, playerList[currentPlayer]);
         //else we switch player
     }
-    
+
     public void SwitchPlayer()
     {
         currentPlayer++;
+
+        doubleRollCount = 0;
+
         if (currentPlayer >= playerList.Count)
         {
             currentPlayer = 0;
@@ -106,4 +180,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int[] LastRolledDice => rolledDice;
+
+    public void AddTaxToPool(int amount)
+    {
+        taxPool += amount;
+    }
+
+    public int GetTaxPool()
+    {
+        //return the tax pool and reset it
+        int currentTaxCollected = taxPool;
+        taxPool = 0;
+        return currentTaxCollected;
+    }
 }
