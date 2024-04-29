@@ -45,6 +45,10 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] TMP_Text ownerText;
     Player owner;
 
+    //message system
+    public delegate void UpdateMessage(string message);
+    public static UpdateMessage OnUpdateMessage;
+
     public Player Owner => owner;
     public void SetOwner(Player newOwner) 
     {
@@ -185,19 +189,19 @@ public class MonopolyNode : MonoBehaviour
 
 
                         //calculate the rent
-                        Debug.Log("Player Might pay rent && owner is:" + owner.playerName);
                         int rentToPay = CalculatePropertyRent();
 
                         //pay the rent to the owner
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        Debug.Log(player.playerName + "pays rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
+                        OnUpdateMessage.Invoke(player.playerName + " pays rent of: " + rentToPay + " to " + owner.playerName);
                     }
                     else if (owner == null && player.CanAffordNode(price) )
-                    {   // buy th node
-
-                        Debug.Log("Player can afford the property");
+                    {  
+                        // buy th node
+                        //Debug.Log("Player can afford the property");
+                        OnUpdateMessage.Invoke(player.playerName + " buys " + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -242,7 +246,7 @@ public class MonopolyNode : MonoBehaviour
 
 
                         //calculate the rent
-                        Debug.Log("Player Might pay rent && owner is:" + owner.playerName);
+                        //Debug.Log("Player Might pay rent && owner is:" + owner.playerName);
                         int rentToPay = CalculateUtilityRent();
                         currentRent = rentToPay;
 
@@ -250,12 +254,13 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        Debug.Log(player.playerName + "pays rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
+                        OnUpdateMessage.Invoke(player.playerName + " pays Utility rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
 
-                        Debug.Log("Player can afford the property");
+                        //Debug.Log("Player can afford the property");
+                        OnUpdateMessage.Invoke(player.playerName + " buys Utility" + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -300,7 +305,6 @@ public class MonopolyNode : MonoBehaviour
 
 
                         //calculate the rent
-                        Debug.Log("Player Might pay rent && owner is:" + owner.playerName);
                         int rentToPay = CalculateRailroadRent();
                         currentRent = rentToPay;
 
@@ -309,12 +313,12 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        Debug.Log(player.playerName + "pays rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
+                        OnUpdateMessage.Invoke(player.playerName + " pays Railroad rent of: " + rentToPay + " to " + owner.playerName);
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
 
-                        Debug.Log("Player can afford the property");
+                        //Debug.Log("Player can afford the property");
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -354,15 +358,18 @@ public class MonopolyNode : MonoBehaviour
                 player.PayMoney(price);
                 //show a message about what happened
                 break;
+                OnUpdateMessage.Invoke(player.playerName + " pays tax of: " + price + " to the pool");
             case MonopolyNodeType.FreeParking:
                 int tax = GameManager.instance.GetTaxPool();
                 player.CollectMoney(tax);
                 //show a message about what happened
+                OnUpdateMessage.Invoke(player.playerName + " collects tax of: " + tax + " from the pool");
 
                 break;
             case MonopolyNodeType.GoToJail:
                 int indexOnBoard = MonopolyBoard.instance.route.IndexOf(player.MyMonopolyNode);
                 player.GoToJail(indexOnBoard);
+                OnUpdateMessage.Invoke(player.playerName + " has to go to jail");
                 continueTurn = false;
 
                 break;
@@ -370,7 +377,8 @@ public class MonopolyNode : MonoBehaviour
 
                 break;
             case MonopolyNodeType.CommunityChest:
-
+                OnDrawCommunityCard.Invoke(player);
+                continueTurn = false;
                 break;
         }
         //stop here if needed
@@ -384,7 +392,7 @@ public class MonopolyNode : MonoBehaviour
         //continue
         if(!playerIsHuman)
         {
-            Invoke("ContinueGame", 2f);
+            Invoke("ContinueGame", GameManager.instance.SecondsBetweenTurns);
         }
         else
         {

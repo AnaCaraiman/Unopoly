@@ -32,6 +32,10 @@ public class Player
     public GameObject MyToken => myToken;
     public MonopolyNode MyMonopolyNode => currentnode;
 
+    //message system
+    public delegate void UpdateMessage(string message);
+    public static UpdateMessage OnUpdateMessage;
+
     public void Init(MonopolyNode startNode, int startMoney, PlayerInfo info, GameObject token)
     {
         currentnode = startNode;
