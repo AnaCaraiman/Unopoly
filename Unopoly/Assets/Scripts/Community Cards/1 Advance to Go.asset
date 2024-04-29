@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3675651a30cd2745ac4affbb62d4081, type: 3}
   m_Name: 1 Advance to Go
   m_EditorClassIdentifier: 
-  textOnCard: 
+  textOnCard: Advance to Go
   rewardMoney: 0
   penalityMoney: 0
   moveToBoardIndex: 0

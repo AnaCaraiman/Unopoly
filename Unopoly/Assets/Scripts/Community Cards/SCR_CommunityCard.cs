@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Community Card", menuName = "Monopoly/Cards/Community")]
 public class SCR_CommunityCard : ScriptableObject
 {
-    public string textOnCard;
-    public int rewardMoney;
-    public int penalityMoney;
+    public string textOnCard; //description of the card
+    public int rewardMoney;  //money to be rewarded
+    public int penalityMoney;  //money to be penalized
     public int moveToBoardIndex = -1;
     public bool collectFromPlayer;
     public bool streetRepairs;
