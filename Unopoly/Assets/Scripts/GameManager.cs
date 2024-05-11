@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     int[] rolledDice;
     bool rolledADouble;
     public bool RolledDouble => rolledADouble;
+    public void ResetRolledDouble() => rolledADouble = false;
     int doubleRollCount;
     //tax poll
     int taxPool = 0;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     //pass over go to get money
     public int GetGoMoney => goMoney;
     public float SecondsBetweenTurns => secondsBetweenTurns;
+    public List<Player> GetPlayers => playerList;
 
     //message system
     public delegate void UpdateMessage(string message);

@@ -10,7 +10,13 @@ public class SCR_CommunityCard : ScriptableObject
     public int penalityMoney;  //money to be penalized
     public int moveToBoardIndex = -1;
     public bool collectFromPlayer;
-    public bool streetRepairs;
+
+    [Header("Jail Content")]
     public bool goToJail;
-    public bool getFreeJail;
+    public bool jailFreeCard;
+
+    [Header("Street Repairs")]
+    public bool streetRepairs;
+    public int streetRepairsHousePrice = 40;
+    public int streetRepairsHotelPrice = 120;
 }
