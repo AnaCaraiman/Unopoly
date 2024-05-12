@@ -84,8 +84,8 @@ public class GameManager : MonoBehaviour
         //reset last roll
         rolledDice = new int[2];
         //any roll dice and store the value
-        rolledDice[0] = Random.Range(1,7);
-        rolledDice[1] = Random.Range(1,7);
+        rolledDice[0] = 6;
+        rolledDice[1] = 5;
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
 
         if(alwaysDoubleRoll)

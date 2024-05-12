@@ -1616,6 +1616,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1521239789}
+        m_TargetAssemblyTypeName: CommunityChest, Assembly-CSharp
+        m_MethodName: ApplyCardEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &436465319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5477,6 +5489,7 @@ MonoBehaviour:
   - {fileID: 1175996898613229953, guid: 7072ab60d650bf147acc8df87e53613b, type: 3}
   - {fileID: 8702093483643533492, guid: 2534882651c616247a85b7c8e0363b5b, type: 3}
   - {fileID: 3774178995716351879, guid: 574b59341b079ca489c08b751105df61, type: 3}
+  alwaysDoubleRoll: 0
 --- !u!1 &1511271328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5615,8 +5628,7 @@ MonoBehaviour:
   cardText: {fileID: 1240043356}
   cardHolderBackground: {fileID: 700341321}
   showTime: 3
-  moveDelay: 0.5
-  cardPool: []
+  closeCardButton: {fileID: 0}
 --- !u!4 &1521239790
 Transform:
   m_ObjectHideFlags: 0

@@ -19,4 +19,6 @@ public class SCR_CommunityCard : ScriptableObject
     public bool streetRepairs;
     public int streetRepairsHousePrice = 40;
     public int streetRepairsHotelPrice = 120;
+
+
 }

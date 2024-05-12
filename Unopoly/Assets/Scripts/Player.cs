@@ -152,7 +152,7 @@ public class Player
         {
             if (node.NumberOfHouses != 5)
             {
-                houses += node.NumberOfHouses
+                houses += node.NumberOfHouses;
             }
             else
             {
