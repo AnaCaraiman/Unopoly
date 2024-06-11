@@ -1604,18 +1604,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 700341321}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1521239789}
         m_TargetAssemblyTypeName: CommunityChest, Assembly-CSharp
         m_MethodName: ApplyCardEffect
@@ -5624,11 +5612,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards:
+  - {fileID: 11400000, guid: 6ffc22a6a8c6ecf43b57fa17519a565e, type: 2}
   - {fileID: 11400000, guid: 87bd2ff47a5fad44bb1e349d996bf274, type: 2}
+  - {fileID: 11400000, guid: cdc57102845d15444ba3902d16e22dea, type: 2}
+  - {fileID: 11400000, guid: 0496eaf1aa88a8740bd2a1e9c2b8d1cb, type: 2}
+  - {fileID: 11400000, guid: 396a85ab973bf3e48a091a1d22333749, type: 2}
+  - {fileID: 11400000, guid: a0d8cffd2084c6947bb68c9e78116d84, type: 2}
+  - {fileID: 11400000, guid: f0dd59cc2e7394d4b84be9e39c1e52ea, type: 2}
+  - {fileID: 11400000, guid: fc6b5b8d511de044bafe3a5fdb26e535, type: 2}
+  - {fileID: 11400000, guid: 39965bb6faaab534f8855d82de0622af, type: 2}
+  - {fileID: 11400000, guid: 9efc1fafca275824083231e379843984, type: 2}
+  - {fileID: 11400000, guid: a43160c29a5985e448236f2722794f74, type: 2}
+  - {fileID: 11400000, guid: d6b84248c4ce70442a98b4480a1a110e, type: 2}
+  - {fileID: 11400000, guid: 00fa1db1e7ecf124aa098c4084ca3aa8, type: 2}
+  - {fileID: 11400000, guid: 78c3db5161b537c4393c86c75c1897b8, type: 2}
+  - {fileID: 11400000, guid: 9e5ba501fb7aff14b8cccf67902d583f, type: 2}
+  - {fileID: 11400000, guid: b66d9cad40ab350449604df8d001f426, type: 2}
+  - {fileID: 11400000, guid: c76e3d038d1b2b14d8fc787c89ccd6a1, type: 2}
+  - {fileID: 11400000, guid: 4a2cdbca5a17dfa46bf264a602e53d5f, type: 2}
   cardText: {fileID: 1240043356}
   cardHolderBackground: {fileID: 700341321}
   showTime: 3
-  closeCardButton: {fileID: 0}
+  moveDelay: 0.5
+  closeCardButton: {fileID: 436465318}
 --- !u!4 &1521239790
 Transform:
   m_ObjectHideFlags: 0

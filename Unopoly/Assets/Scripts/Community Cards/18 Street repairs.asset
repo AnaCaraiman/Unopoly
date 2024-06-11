@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3675651a30cd2745ac4affbb62d4081, type: 3}
-  m_Name: 1 Advance to Go
+  m_Name: 18 Street repairs
   m_EditorClassIdentifier: 
-  textOnCard: Advance to Go(collect 500RON)
-  rewardMoney: 500
+  textOnCard: "You are assessed for street repairs \u2013 40RON per house, 115RON
+    per hotel"
+  rewardMoney: 0
   penalityMoney: 0
-  moveToBoardIndex: 0
+  moveToBoardIndex: -1
   collectFromPlayer: 0
   goToJail: 0
   jailFreeCard: 0
-  streetRepairs: 0
+  streetRepairs: 1
   streetRepairsHousePrice: 40
   streetRepairsHotelPrice: 120
   moneyToEarn: 500
