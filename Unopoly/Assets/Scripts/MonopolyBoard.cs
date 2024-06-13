@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -71,6 +72,30 @@ public class MonopolyBoard : MonoBehaviour
     public void MovePlayerToken( int steps, Player player)
     {
         StartCoroutine(MovePlayerInSteps(steps, player));
+    }
+
+    public void MovePlayerToken(MonopolyNodeType type, Player player)
+    {
+        int indexOfNextNodeType = -1;
+        int indexOnBoard = route.IndexOf(player.MyMonopolyNode); //where is the player
+        int startSearchIndex = (indexOnBoard + 1) % route.Count;
+        int nodeSearches = 0; //amount of fields searched
+
+        while(indexOfNextNodeType == -1 && nodeSearches<route.Count) 
+        {
+            if (route[startSearchIndex].monopolyNodeType == type) //found the desired type
+            {
+                indexOfNextNodeType = startSearchIndex;
+            }
+            startSearchIndex = (startSearchIndex) % route.Count;
+            nodeSearches++;
+        }
+        if(indexOfNextNodeType == -1) //security exit
+        {
+            Debug.Log("No node found");
+            return;
+        }
+        StartCoroutine(MovePlayerInSteps(nodeSearches, player));
     }
 
     IEnumerator MovePlayerInSteps(int steps, Player player)
