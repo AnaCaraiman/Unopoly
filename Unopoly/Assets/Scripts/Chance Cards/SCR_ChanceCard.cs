@@ -10,6 +10,7 @@ public class SCR_ChanceCard : ScriptableObject
     public int penalityMoney;  //money to be penalized
     public int moveToBoardIndex = -1;
     public bool payToPlayer;
+
     [Header("MoveToLocations")]
     public bool nextRailroad;
     public bool nextUtility;

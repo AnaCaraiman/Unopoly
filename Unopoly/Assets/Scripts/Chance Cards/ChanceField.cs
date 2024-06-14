@@ -150,14 +150,17 @@ public class ChanceField : MonoBehaviour
         {
             int steps = Mathf.Abs(pickedCard.moveStepsBackwards);
             MonopolyBoard.instance.MovePlayerToken(-steps, currentPlayer);
+            isMoving = true;
         }
         else if(pickedCard.nextRailroad)
         {
             MonopolyBoard.instance.MovePlayerToken(MonopolyNodeType.Railroad, currentPlayer);
+            isMoving = true;
         }
         else if(pickedCard.nextUtility)
         {
             MonopolyBoard.instance.MovePlayerToken(MonopolyNodeType.Utility, currentPlayer);
+            isMoving = true;
         }
         cardHolderBackground.SetActive(false);
         ContinueGame(isMoving);
@@ -171,7 +174,7 @@ public class ChanceField : MonoBehaviour
             {
                 GameManager.instance.RollDice();
             }
-            else if (isMoving && !GameManager.instance.RolledDouble)
+            else if (!isMoving && !GameManager.instance.RolledDouble)
             {
                 GameManager.instance.SwitchPlayer();
             }

@@ -157,7 +157,7 @@ public class CommunityChest : MonoBehaviour
             {
                 GameManager.instance.RollDice();
             }
-            else if(isMoving && !GameManager.instance.RolledDouble)
+            else if(!isMoving && !GameManager.instance.RolledDouble)
             {
                 GameManager.instance.SwitchPlayer();
             }

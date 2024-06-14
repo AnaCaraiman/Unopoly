@@ -50,6 +50,14 @@ public class Player
     {
         currentnode = node;
         node.PlayerLandedOnNode(this);
+
+        //ai player
+        if(playerType == PlayerType.AI)
+        {
+            //CHECH IF I CAN BUY A HOUSE
+            ChecckIfPlayerHasASet();
+
+        }
     }
 
     public void CollectMoney(int amount)
@@ -64,7 +72,7 @@ public class Player
 
     public void BuyProperty(MonopolyNode node)
     {
-        money = node.price;
+        money -= node.price;
         node.SetOwner(this);
         //update ui
         myInfo.SetPlayerCash(money);
@@ -162,5 +170,65 @@ public class Player
 
         int[] allBuildings = new int[] { houses, hotels };
         return allBuildings;
+    }
+
+    //chech if a player has a property set
+    void ChecckIfPlayerHasASet()
+    {
+        foreach ( var node in myMonopolyNodes)
+        {
+            var (list, allSame) = MonopolyBoard.instance.PlayerHasAllNodesofSet(node);
+            List<MonopolyNode> nodeSet = list;
+            if(nodeSet != null)
+            {
+                bool hasMorgagedNode = nodeSet.Any(node => node.IsMortgaged) ? true : false;
+                if(!hasMorgagedNode)
+                {
+                    if (nodeSet[0].monopolyNodeType==MonopolyNodeType.Property)
+                    {
+                        //we could build a house on the set
+                        BuildHouseOrHotelEvenly(nodeSet);
+                    }
+                }
+            }
+        }
+    }
+
+    void BuildHouseOrHotelEvenly(List<MonopolyNode> nodesToBuildOn)
+    {
+        int minHouses = int.MaxValue;
+        int maxHouses = int.MinValue;
+        //get min and max numbers of houses currently on the propertys
+        foreach ( var node in nodesToBuildOn)
+        {
+            int numOfHouses = node.NumberOfHouses;
+            if(numOfHouses < minHouses)
+            {
+                minHouses = numOfHouses;
+            }
+            if(numOfHouses > maxHouses && numOfHouses < 5)
+            {
+                maxHouses = numOfHouses;
+            }
+        }
+
+        foreach (var node in nodesToBuildOn)
+        {
+            if(node.NumberOfHouses == minHouses && node.NumberOfHouses < 5 && CanAffordHouse(node.houseCost))
+            {
+                node.BuildHouseOrHotel();
+                PayMoney(node.houseCost);
+            }
+        }
+
+        bool CanAffordHouse(int price)
+        {
+            if(playerType == PlayerType.AI)
+            {
+                return (money - aiMoneySavity) >= price;
+            }
+            
+            return money >= price;  //human only
+        }
     }
 }

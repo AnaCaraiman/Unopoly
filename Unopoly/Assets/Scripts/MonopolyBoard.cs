@@ -87,7 +87,7 @@ public class MonopolyBoard : MonoBehaviour
             {
                 indexOfNextNodeType = startSearchIndex;
             }
-            startSearchIndex = (startSearchIndex) % route.Count;
+            startSearchIndex = (startSearchIndex+1) % route.Count;
             nodeSearches++;
         }
         if(indexOfNextNodeType == -1) //security exit
@@ -165,7 +165,10 @@ public class MonopolyBoard : MonoBehaviour
             if(nodeSet.nodesInSetList.Contains(node))
             {  //linq
                 allsame = nodeSet.nodesInSetList.All(_node => _node.Owner == node.Owner);
-                return (nodeSet.nodesInSetList, allsame);
+                if (allsame)
+                {
+                    return (nodeSet.nodesInSetList, allsame);
+                }
                
             }
         }
