@@ -14,24 +14,34 @@ public class GameManager : MonoBehaviour
     [SerializeField] int maxTurnsInJail = 3; //how long a player can stay in jail
     [SerializeField] int startingMoney = 1500;
     [SerializeField] int goMoney = 500;
+    [SerializeField] float secondsBetweenTurns = 3;
     [Header("Player Info")]
     [SerializeField] GameObject playerInfoPrefab;
     [SerializeField] Transform playerPanel; //for the player info prefabs to become parented to
     [SerializeField] List<GameObject> playerTokenList = new List<GameObject>();
 
+
     //rolling dice info
     int[] rolledDice;
     bool rolledADouble;
     public bool RolledDouble => rolledADouble;
+    public void ResetRolledDouble() => rolledADouble = false;
     int doubleRollCount;
     //tax poll
     int taxPool = 0;
 
     //pass over go to get money
     public int GetGoMoney => goMoney;
+    public float SecondsBetweenTurns => secondsBetweenTurns;
+    public List<Player> GetPlayers => playerList;
+
+    //message system
+    public delegate void UpdateMessage(string message);
+    public static UpdateMessage OnUpdateMessage;
 
     //debug
-    public bool alwaysRollDouble = false;
+    public bool alwaysDoubleRoll = false;
+    
 
     private void Awake()
     {
@@ -75,16 +85,17 @@ public class GameManager : MonoBehaviour
         rolledDice = new int[2];
         //any roll dice and store the value
         rolledDice[0] = Random.Range(1,7);
-        rolledDice[1] = Random.Range(1,7);
+        rolledDice[1] = Random.Range(1, 7);
+
+
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
 
-
-        //debug
-        if (alwaysRollDouble)
+        if(alwaysDoubleRoll)
         {
-            rolledDice[0] = 2;
-            rolledDice[1] = 2;
+            rolledDice[0] = 1;
+            rolledDice[1] = 1;
         }
+
 
 
         //chance for doubles
@@ -92,6 +103,7 @@ public class GameManager : MonoBehaviour
         //throw 3 times in a row -> jail time -> end turn
 
         //is in jail already
+        if (playerList[currentPlayer].IsInJail)
         if (playerList[currentPlayer].IsInJail)
         {
             playerList[currentPlayer].IncreaseNumTurnsInJail();
@@ -101,11 +113,13 @@ public class GameManager : MonoBehaviour
             {
                 //get out of jail
                 playerList[currentPlayer].SetOutOfJail();
+                OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " <color=red>can leave jail</color>, because a double was rolled");
                 doubleRollCount++;
             }
             else if (playerList[currentPlayer].NumturnsInJail >= maxTurnsInJail)
             {
                 playerList[currentPlayer].SetOutOfJail();
+                OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " <color=red>has been released from jail</color>, because they have been in jail for too long");
             }
             else 
             { 
@@ -127,6 +141,7 @@ public class GameManager : MonoBehaviour
                     //move to jail
                     int indexOnBoard = MonopolyBoard.instance.route.IndexOf(playerList[currentPlayer].MyMonopolyNode);
                     playerList[currentPlayer].GoToJail(indexOnBoard);
+                    OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has been sent to jail for rolling 3 doubles in a row");
                     rolledADouble = false; //reset
                     return;
                 }
@@ -136,17 +151,16 @@ public class GameManager : MonoBehaviour
         //can we leave jail
 
         //move anyhow if allowed
-        rolledDice[0] = 5;
-        rolledDice[1] = 5;
         if (allowedToMove)
         {
+            OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has rolled " + rolledDice[0] + " & " + rolledDice[1]);
             StartCoroutine(DelayBeforeMove(rolledDice[0] + rolledDice[1]));
         }
         else
         {
             //switch player
-            Debug.Log("we can not move");
-            SwitchPlayer();
+            OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has to stay in jail");
+            StartCoroutine(DelayBetweenSwitchPlayer());
         }
         //show or hide
 
@@ -154,10 +168,16 @@ public class GameManager : MonoBehaviour
 
     IEnumerator DelayBeforeMove(int rolledDice)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(secondsBetweenTurns);
         //if we are allowed to move -> move
         gameBoard.MovePlayerToken(rolledDice, playerList[currentPlayer]);
         //else we switch player
+    }
+
+    IEnumerator DelayBetweenSwitchPlayer()
+    {
+        yield return new WaitForSeconds(secondsBetweenTurns);
+        SwitchPlayer();
     }
 
     public void SwitchPlayer()

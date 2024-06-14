@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f40512b89e984844fa7936e96c968f49, type: 3}
-  m_Name: 1 Advance to Go
+  m_Name: 10 Life insurance
   m_EditorClassIdentifier: 
-  textOnCard: Advance to Go (Collect 500RON)
-  rewardMoney: 0
+  textOnCard: "Life insurance matures \u2013 Collect 100RON"
+  rewardMoney: 100
   penalityMoney: 0
-  moveToBoardIndex: 0
+  moveToBoardIndex: -1
   collectFromPlayer: 0
   goToJail: 0
   jailFreeCard: 0
