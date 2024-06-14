@@ -166,7 +166,7 @@ public class MonopolyNode : MonoBehaviour
             if(owner != null)
             {
                 ownerBar.SetActive(true);
-                ownerText.text = owner.playerName;
+                ownerText.text = owner.name;
             }
             else
             {
@@ -199,13 +199,13 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays rent of: " + rentToPay + " to " + owner.playerName);
+                        OnUpdateMessage.Invoke(player.name + " pays rent of: " + rentToPay + " to " + owner.name);
                     }
                     else if (owner == null && player.CanAffordNode(price) )
                     {  
                         // buy th node
                         //Debug.Log("Player can afford the property");
-                        OnUpdateMessage.Invoke(player.playerName + " buys " + this.name);
+                        OnUpdateMessage.Invoke(player.name + " buys " + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -258,13 +258,13 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays Utility rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
+                        OnUpdateMessage.Invoke(player.name + " pays Utility rent of: " + rentToPay + "to" + owner.name + "for landing on" + name + "node");
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
 
                         //Debug.Log("Player can afford the property");
-                        OnUpdateMessage.Invoke(player.playerName + " buys Utility" + this.name);
+                        OnUpdateMessage.Invoke(player.name + " buys Utility" + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -317,7 +317,7 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays Railroad rent of: " + rentToPay + " to " + owner.playerName);
+                        OnUpdateMessage.Invoke(player.name + " pays Railroad rent of: " + rentToPay + " to " + owner.name);
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
@@ -361,19 +361,19 @@ public class MonopolyNode : MonoBehaviour
                 GameManager.instance.AddTaxToPool(price);
                 player.PayMoney(price);
                 //show a message about what happened
-                OnUpdateMessage.Invoke(player.playerName + " pays tax of: " + price + " to the pool");
+                OnUpdateMessage.Invoke(player.name + " pays tax of: " + price + " to the pool");
                 break;
             case MonopolyNodeType.FreeParking:
                 int tax = GameManager.instance.GetTaxPool();
                 player.CollectMoney(tax);
                 //show a message about what happened
-                OnUpdateMessage.Invoke(player.playerName + " collects tax of: " + tax + " from the pool");
+                OnUpdateMessage.Invoke(player.name + " collects tax of: " + tax + " from the pool");
 
                 break;
             case MonopolyNodeType.GoToJail:
                 int indexOnBoard = MonopolyBoard.instance.route.IndexOf(player.MyMonopolyNode);
                 player.GoToJail(indexOnBoard);
-                OnUpdateMessage.Invoke(player.playerName + " has to go to jail");
+                OnUpdateMessage.Invoke(player.name + " has to go to jail");
                 continueTurn = false;
 
                 break;
@@ -555,13 +555,14 @@ public class MonopolyNode : MonoBehaviour
             VisualizeHouses();
         }
     }
-    public void SellHouseOrHotel()
+    public int SellHouseOrHotel()
     {
         if (monopolyNodeType == MonopolyNodeType.Property)
         {
             numberOfHouses--;
             VisualizeHouses();
         }
+        return houseCost / 2;
     }
 
     public void ResetNode()
@@ -581,7 +582,8 @@ public class MonopolyNode : MonoBehaviour
         //reset the owner
 
         //remove propery from owner
-        owner.playerName = "";
+        owner.RemoveProperty(this);
+        owner.name = "";
         OnOwnerUpdated();
     }
 
