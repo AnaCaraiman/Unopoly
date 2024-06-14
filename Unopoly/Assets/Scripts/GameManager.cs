@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 
         //is in jail already
         if (playerList[currentPlayer].IsInJail)
+        if (playerList[currentPlayer].IsInJail)
         {
             playerList[currentPlayer].IncreaseNumTurnsInJail();
 

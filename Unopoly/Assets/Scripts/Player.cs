@@ -95,7 +95,7 @@ public class Player
          //handel insufficent funds > AI
         }
         money-= rentAmount;
-       owner.CollectMoney(rentAmount);
+        owner.CollectMoney(rentAmount);
         //update ui
         myInfo.SetPlayerCash(money);
 
@@ -175,11 +175,22 @@ public class Player
     //chech if a player has a property set
     void ChecckIfPlayerHasASet()
     {
+        //call it only once per set
+        List<MonopolyNode> processedSet = null;
+        //store and compare
+
+
         foreach ( var node in myMonopolyNodes)
         {
             var (list, allSame) = MonopolyBoard.instance.PlayerHasAllNodesofSet(node);
+            
+            if(!allSame)
+            {
+                continue;
+            }
+
             List<MonopolyNode> nodeSet = list;
-            if(nodeSet != null)
+            if (nodeSet != null && nodeSet != processedSet)
             {
                 bool hasMorgagedNode = nodeSet.Any(node => node.IsMortgaged) ? true : false;
                 if(!hasMorgagedNode)
@@ -188,6 +199,8 @@ public class Player
                     {
                         //we could build a house on the set
                         BuildHouseOrHotelEvenly(nodeSet);
+                        //update process set
+                        processedSet = nodeSet;
                     }
                 }
             }
@@ -218,6 +231,7 @@ public class Player
             {
                 node.BuildHouseOrHotel();
                 PayMoney(node.houseCost);
+                break;
             }
         }
 
