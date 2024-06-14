@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public class CommunityChest : MonoBehaviour
@@ -12,7 +11,6 @@ public class CommunityChest : MonoBehaviour
     [SerializeField] TMP_Text cardText;
     [SerializeField] GameObject cardHolderBackground;
     [SerializeField] float showTime = 3;
-    [SerializeField] float moveDelay = 0.5f;
     [SerializeField] Button closeCardButton;
 
     List<SCR_CommunityCard> cardPool = new List<SCR_CommunityCard>();
@@ -155,11 +153,11 @@ public class CommunityChest : MonoBehaviour
     {
         if(currentPlayer.playerType == Player.PlayerType.AI)
         {
-            if(isMoving && GameManager.instance.RolledDouble)
+            if(!isMoving && GameManager.instance.RolledDouble)
             {
                 GameManager.instance.RollDice();
             }
-            else if(isMoving && !GameManager.instance.RolledDouble)
+            else if(!isMoving && !GameManager.instance.RolledDouble)
             {
                 GameManager.instance.SwitchPlayer();
             }
@@ -169,5 +167,6 @@ public class CommunityChest : MonoBehaviour
             
         }
     }
+
 
 }

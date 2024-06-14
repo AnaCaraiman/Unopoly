@@ -28,6 +28,7 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] TMP_Text nameText;
     [Header("Property Price")]
     public int price;
+    public int houseCost;
     [SerializeField] TMP_Text priceText;
     [Header("Property Rent")]
     [SerializeField] bool calculateRentAuto;
@@ -36,6 +37,8 @@ public class MonopolyNode : MonoBehaviour
     [SerializeField] internal List<int> rentWithHouses = new List<int>();
     int numberOfHouses;
     public int NumberOfHouses => numberOfHouses;
+    [SerializeField] GameObject[] houses;
+    [SerializeField] GameObject hotel;
     [Header("Property Mortgage")]
     [SerializeField] GameObject mortgageImage;
     [SerializeField] GameObject propertyImage;
@@ -163,7 +166,7 @@ public class MonopolyNode : MonoBehaviour
             if(owner != null)
             {
                 ownerBar.SetActive(true);
-                ownerText.text = owner.playerName;
+                ownerText.text = owner.name;
             }
             else
             {
@@ -196,13 +199,13 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays rent of: " + rentToPay + " to " + owner.playerName);
+                        OnUpdateMessage.Invoke(player.name + " pays rent of: " + rentToPay + " to " + owner.name);
                     }
                     else if (owner == null && player.CanAffordNode(price) )
                     {  
                         // buy th node
                         //Debug.Log("Player can afford the property");
-                        OnUpdateMessage.Invoke(player.playerName + " buys " + this.name);
+                        OnUpdateMessage.Invoke(player.name + " buys " + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -255,13 +258,13 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays Utility rent of: " + rentToPay + "to" + owner.playerName + "for landing on" + name + "node");
+                        OnUpdateMessage.Invoke(player.name + " pays Utility rent of: " + rentToPay + "to" + owner.name + "for landing on" + name + "node");
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
 
                         //Debug.Log("Player can afford the property");
-                        OnUpdateMessage.Invoke(player.playerName + " buys Utility" + this.name);
+                        OnUpdateMessage.Invoke(player.name + " buys Utility" + this.name);
                         player.BuyProperty(this);
                         OnOwnerUpdated();
 
@@ -314,7 +317,7 @@ public class MonopolyNode : MonoBehaviour
                         player.PayRent(rentToPay, owner);
 
                         //show a message about what happened
-                        OnUpdateMessage.Invoke(player.playerName + " pays Railroad rent of: " + rentToPay + " to " + owner.playerName);
+                        OnUpdateMessage.Invoke(player.name + " pays Railroad rent of: " + rentToPay + " to " + owner.name);
                     }
                     else if (owner == null && player.CanAffordNode(price))
                     {   // buy th node
@@ -358,23 +361,25 @@ public class MonopolyNode : MonoBehaviour
                 GameManager.instance.AddTaxToPool(price);
                 player.PayMoney(price);
                 //show a message about what happened
+                OnUpdateMessage.Invoke(player.name + " pays tax of: " + price + " to the pool");
                 break;
-                OnUpdateMessage.Invoke(player.playerName + " pays tax of: " + price + " to the pool");
             case MonopolyNodeType.FreeParking:
                 int tax = GameManager.instance.GetTaxPool();
                 player.CollectMoney(tax);
                 //show a message about what happened
-                OnUpdateMessage.Invoke(player.playerName + " collects tax of: " + tax + " from the pool");
+                OnUpdateMessage.Invoke(player.name + " collects tax of: " + tax + " from the pool");
 
                 break;
             case MonopolyNodeType.GoToJail:
                 int indexOnBoard = MonopolyBoard.instance.route.IndexOf(player.MyMonopolyNode);
                 player.GoToJail(indexOnBoard);
-                OnUpdateMessage.Invoke(player.playerName + " has to go to jail");
+                OnUpdateMessage.Invoke(player.name + " has to go to jail");
                 continueTurn = false;
 
                 break;
             case MonopolyNodeType.Chance:
+                OnDrawChanceCard.Invoke(player);
+                continueTurn = false;
 
                 break;
             case MonopolyNodeType.CommunityChest:
@@ -486,4 +491,100 @@ public class MonopolyNode : MonoBehaviour
 
         return result;
     }
+
+    void VisualizeHouses()
+    {
+        switch(numberOfHouses)
+        {
+            case 0:
+                houses[0].SetActive(false);
+                houses[1].SetActive(false);
+                houses[2].SetActive(false);
+                houses[3].SetActive(false);
+                hotel.SetActive(false);
+                break;
+
+            case 1:
+                houses[0].SetActive(true);
+                houses[1].SetActive(false);
+                houses[2].SetActive(false);
+                houses[3].SetActive(false);
+                hotel.SetActive(false);
+                break;
+
+            case 2:
+                houses[0].SetActive(true);
+                houses[1].SetActive(true);
+                houses[2].SetActive(false);
+                houses[3].SetActive(false);
+                hotel.SetActive(false);
+                break;
+
+            case 3:
+                houses[0].SetActive(true);
+                houses[1].SetActive(true);
+                houses[2].SetActive(true);
+                houses[3].SetActive(false);
+                hotel.SetActive(false);
+                break;
+
+            case 4:
+                houses[0].SetActive(true);
+                houses[1].SetActive(true);
+                houses[2].SetActive(true);
+                houses[3].SetActive(true);
+                hotel.SetActive(false);
+                break;
+
+            case 5:
+                houses[0].SetActive(false);
+                houses[1].SetActive(false);
+                houses[2].SetActive(false);
+                houses[3].SetActive(false);
+                hotel.SetActive(true);
+                break;
+
+        }
+    }
+
+    public void BuildHouseOrHotel()
+    {
+        if(monopolyNodeType == MonopolyNodeType.Property)
+        {
+            numberOfHouses++;
+            VisualizeHouses();
+        }
+    }
+    public int SellHouseOrHotel()
+    {
+        if (monopolyNodeType == MonopolyNodeType.Property)
+        {
+            numberOfHouses--;
+            VisualizeHouses();
+        }
+        return houseCost / 2;
+    }
+
+    public void ResetNode()
+    {
+        if(isMortgaged)
+        {
+            propertyImage.SetActive(true );
+            mortgageImage.SetActive(false);
+            isMortgaged = false;
+        }
+        ///reset houses and hotel
+        if(monopolyNodeType == MonopolyNodeType.Property)
+        {
+            numberOfHouses = 0;
+            VisualizeHouses();
+        }
+        //reset the owner
+
+        //remove propery from owner
+        owner.RemoveProperty(this);
+        owner.name = "";
+        OnOwnerUpdated();
+    }
+
 }

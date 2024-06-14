@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 
             playerList[i].Init(gameBoard.route[0], startingMoney, info, newToken);
         }
+        playerList[currentPlayer].ActivateSelector(true);
     }
 
     public void  RollDice() //press button from human or auto ai
@@ -84,8 +85,10 @@ public class GameManager : MonoBehaviour
         //reset last roll
         rolledDice = new int[2];
         //any roll dice and store the value
-        rolledDice[0] = 6;
-        rolledDice[1] = 5;
+        rolledDice[0] = Random.Range(1,7);
+        rolledDice[1] = Random.Range(1, 7);
+
+
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
 
         if(alwaysDoubleRoll)
@@ -95,11 +98,13 @@ public class GameManager : MonoBehaviour
         }
 
 
+
         //chance for doubles
         rolledADouble = rolledDice[0] == rolledDice[1];
         //throw 3 times in a row -> jail time -> end turn
 
         //is in jail already
+        if (playerList[currentPlayer].IsInJail)
         if (playerList[currentPlayer].IsInJail)
         {
             playerList[currentPlayer].IncreaseNumTurnsInJail();
@@ -109,13 +114,13 @@ public class GameManager : MonoBehaviour
             {
                 //get out of jail
                 playerList[currentPlayer].SetOutOfJail();
-                OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " <color=red>can leave jail</color>, because a double was rolled");
+                OnUpdateMessage.Invoke(playerList[currentPlayer].name + " <color=red>can leave jail</color>, because a double was rolled");
                 doubleRollCount++;
             }
             else if (playerList[currentPlayer].NumturnsInJail >= maxTurnsInJail)
             {
                 playerList[currentPlayer].SetOutOfJail();
-                OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " <color=red>has been released from jail</color>, because they have been in jail for too long");
+                OnUpdateMessage.Invoke(playerList[currentPlayer].name + " <color=red>has been released from jail</color>, because they have been in jail for too long");
             }
             else 
             { 
@@ -137,7 +142,7 @@ public class GameManager : MonoBehaviour
                     //move to jail
                     int indexOnBoard = MonopolyBoard.instance.route.IndexOf(playerList[currentPlayer].MyMonopolyNode);
                     playerList[currentPlayer].GoToJail(indexOnBoard);
-                    OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has been sent to jail for rolling 3 doubles in a row");
+                    OnUpdateMessage.Invoke(playerList[currentPlayer].name + " has been sent to jail for rolling 3 doubles in a row");
                     rolledADouble = false; //reset
                     return;
                 }
@@ -149,13 +154,13 @@ public class GameManager : MonoBehaviour
         //move anyhow if allowed
         if (allowedToMove)
         {
-            OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has rolled " + rolledDice[0] + " & " + rolledDice[1]);
+            OnUpdateMessage.Invoke(playerList[currentPlayer].name + " has rolled " + rolledDice[0] + " & " + rolledDice[1]);
             StartCoroutine(DelayBeforeMove(rolledDice[0] + rolledDice[1]));
         }
         else
         {
             //switch player
-            OnUpdateMessage.Invoke(playerList[currentPlayer].playerName + " has to stay in jail");
+            OnUpdateMessage.Invoke(playerList[currentPlayer].name + " has to stay in jail");
             StartCoroutine(DelayBetweenSwitchPlayer());
         }
         //show or hide
@@ -186,6 +191,10 @@ public class GameManager : MonoBehaviour
         {
             currentPlayer = 0;
         }
+
+        DeactivateArrow();
+        playerList[currentPlayer].ActivateSelector(true);
+
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
             RollDice();
@@ -209,5 +218,33 @@ public class GameManager : MonoBehaviour
         int currentTaxCollected = taxPool;
         taxPool = 0;
         return currentTaxCollected;
+    }
+
+    public void RemovePlayer(Player player)
+    {
+        playerList.Remove(player);
+        //check - game over
+        CheckForGameOver();
+    }
+
+    void CheckForGameOver()
+    {
+        if(playerList.Count == 1)
+        {
+            //we have a winner
+            Debug.Log(playerList[0].name + " has won the game!");
+            OnUpdateMessage.Invoke(playerList[0].name + " has won the game!");
+            //stop the game loop
+
+            //show ai
+        }
+    }
+
+    void DeactivateArrow()
+    {
+        foreach (var player in playerList)
+        {
+            player.ActivateSelector(false);
+        }
     }
 }

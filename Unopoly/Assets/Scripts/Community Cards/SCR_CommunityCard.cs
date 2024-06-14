@@ -21,4 +21,5 @@ public class SCR_CommunityCard : ScriptableObject
     public int streetRepairsHotelPrice = 120;
 
 
+
 }
