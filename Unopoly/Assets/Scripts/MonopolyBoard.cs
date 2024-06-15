@@ -154,7 +154,7 @@ public class MonopolyBoard : MonoBehaviour
 
     bool MoveToNextNode(GameObject tokenToMove, Vector3 endPos, float speed)
     {
-        return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed + Time.deltaTime));
+        return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed * Time.deltaTime));
     }
 
     public (List<MonopolyNode> list, bool allsame ) PlayerHasAllNodesofSet(MonopolyNode node)

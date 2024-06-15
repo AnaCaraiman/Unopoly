@@ -57,7 +57,8 @@ public class MonopolyNode : MonoBehaviour
     public void SetOwner(Player newOwner) 
     {
         owner = newOwner;
-            }
+        OnOwnerUpdated();
+    }
 
 
 
@@ -73,8 +74,11 @@ public class MonopolyNode : MonoBehaviour
     public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
     public static ShowHumanPanel OnShowHumanPanel;
 
+    //property buy panel
+    public delegate void ShowBuyPropertyBuyPanel(MonopolyNode node, Player player);
+    public static ShowBuyPropertyBuyPanel OnShowPropertyBuyPanel;
 
-    private void OnValidate()
+    void OnValidate()
     {
         if (nameText != null)
         {
@@ -235,9 +239,7 @@ public class MonopolyNode : MonoBehaviour
                     else if (owner == null)
                     {   
                         // show buy interface for propwert
-
-                     
-
+                        OnShowPropertyBuyPanel.Invoke(this, player);
                     }
                     else
                     { //is unowned and cant afford it 
@@ -272,7 +274,7 @@ public class MonopolyNode : MonoBehaviour
                         //Debug.Log("Player can afford the property");
                         OnUpdateMessage.Invoke(player.name + " buys Utility" + this.name);
                         player.BuyProperty(this);
-                        OnOwnerUpdated();
+                        //OnOwnerUpdated();
 
                         //show a mesage
 
