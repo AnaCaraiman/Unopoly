@@ -14,13 +14,15 @@ public class MessageSystem : MonoBehaviour
         GameManager.OnUpdateMessage += RecieveMessage;
         Player.OnUpdateMessage += RecieveMessage;
         MonopolyNode.OnUpdateMessage += RecieveMessage;
+        TradingSystem.OnUpdateMessage += RecieveMessage;
     }
 
     void OnDisable()
     {
         GameManager.OnUpdateMessage -= RecieveMessage;
-        Player.OnUpdateMessage += RecieveMessage;
-        MonopolyNode.OnUpdateMessage += RecieveMessage;
+        Player.OnUpdateMessage -= RecieveMessage;
+        MonopolyNode.OnUpdateMessage -= RecieveMessage;
+        TradingSystem.OnUpdateMessage -= RecieveMessage;
     }
 
     void RecieveMessage(string _message)
