@@ -21,6 +21,7 @@ public class Player
     int numTurnsInJail = 0;
     [SerializeField] GameObject myToken;
     [SerializeField] List<MonopolyNode> myMonopolyNodes = new List<MonopolyNode>();
+    public List<MonopolyNode> GetMonopolyNodes => myMonopolyNodes;
 
     //PlayerInfo
     PlayerInfo myInfo;
@@ -60,9 +61,10 @@ public class Player
             ChecckIfPlayerHasASet();
             //check for umortgaged properties
             UnmortgageProperties();
+            //check if he could trade
+            TradingSystem.instance.FindMissingProperty(this);
 
-        }
-        
+        } 
     }
 
     public void CollectMoney(int amount)
@@ -253,10 +255,6 @@ public class Player
         GameManager.instance.RemovePlayer(this);
     }
 
-    public void RemoveProperty(MonopolyNode node)
-    {
-           myMonopolyNodes.Remove(node);
-    }
 
     void UnmortgageProperties()
     {
@@ -352,5 +350,17 @@ public class Player
     public void ActivateSelector(bool active)
     {
         myInfo.ActivateArrow(active);
+    }
+
+    //remove and add nodes
+    public void AddProperty(MonopolyNode node)
+    {
+        myMonopolyNodes.Add(node);
+        SortPropertiesByPrice();
+    }
+    public void RemoveProperty(MonopolyNode node)
+    {
+        myMonopolyNodes.Remove(node);
+        SortPropertiesByPrice();
     }
  }
