@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1115,6 +1115,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87105429}
   m_CullTransparentMesh: 1
+--- !u!1 &91937803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91937805}
+  - component: {fileID: 91937804}
+  m_Layer: 0
+  m_Name: TradingSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &91937804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91937803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07921b4a078b0d141bdf8b97b96c271e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &91937805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91937803}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.284893, y: 12.252437, z: 6.7924485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &99531850
 GameObject:
   m_ObjectHideFlags: 0
@@ -4506,6 +4550,10 @@ PrefabInstance:
     - target: {fileID: 866931517248751082, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706986593981657716, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
+      propertyPath: m_text
+      value: 120RON
       objectReference: {fileID: 0}
     - target: {fileID: 8508487882954019714, guid: d08b4b24648dca346891783a7cc8e7e6, type: 3}
       propertyPath: m_Name
@@ -20374,7 +20422,7 @@ MonoBehaviour:
   - {fileID: 8702093483643533492, guid: 2534882651c616247a85b7c8e0363b5b, type: 3}
   - {fileID: 3774178995716351879, guid: 574b59341b079ca489c08b751105df61, type: 3}
   alwaysDoubleRoll: 0
-  forceDiceRoll: 1
+  forceDiceRoll: 0
   dice1: 2
   dice2: 3
 --- !u!1 &1493177327
@@ -30081,3 +30129,4 @@ SceneRoots:
   - {fileID: 1854991741}
   - {fileID: 1521239790}
   - {fileID: 1730754566}
+  - {fileID: 91937805}
