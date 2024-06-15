@@ -62,6 +62,7 @@ public class Player
             UnmortgageProperties();
 
         }
+        
     }
 
     public void CollectMoney(int amount)

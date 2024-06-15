@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviour
     public delegate void UpdateMessage(string message);
     public static UpdateMessage OnUpdateMessage;
 
+    //Human Input Panel
+
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public static ShowHumanPanel OnShowHumanPanel;
+
     //debug
     public bool alwaysDoubleRoll = false;
     
@@ -77,6 +82,15 @@ public class GameManager : MonoBehaviour
             playerList[i].Init(gameBoard.route[0], startingMoney, info, newToken);
         }
         playerList[currentPlayer].ActivateSelector(true);
+
+        if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
+        {
+            OnShowHumanPanel.Invoke(true, true, false);
+        }
+        else
+        { 
+            OnShowHumanPanel.Invoke(false, false, false);
+        }
     }
 
     public void  RollDice() //press button from human or auto ai
@@ -163,7 +177,14 @@ public class GameManager : MonoBehaviour
             OnUpdateMessage.Invoke(playerList[currentPlayer].name + " has to stay in jail");
             StartCoroutine(DelayBetweenSwitchPlayer());
         }
+
+
         //show or hide
+        if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
+        {
+            OnShowHumanPanel.Invoke(true, false, false); 
+        }
+
 
     }
 
@@ -198,10 +219,11 @@ public class GameManager : MonoBehaviour
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
             RollDice();
+            OnShowHumanPanel.Invoke(false, false, false);
         }
-        else
+        else //human
         {
-            //show the roll dice button
+            OnShowHumanPanel.Invoke(true, true, false);
         }
     }
 

@@ -185,11 +185,14 @@ MonoBehaviour:
   name: Railroad
   nameText: {fileID: 3745814933041899138}
   price: 200
+  houseCost: 0
   priceText: {fileID: 9089909664246753197}
   calculateRentAuto: 1
   currentRent: 0
   baseRent: 50
   rentWithHouses: 
+  houses: []
+  hotel: {fileID: 0}
   mortgageImage: {fileID: 7596436714964703765}
   propertyImage: {fileID: 5237472056264404771}
   isMortgaged: 0
