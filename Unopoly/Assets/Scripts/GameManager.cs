@@ -46,7 +46,13 @@ public class GameManager : MonoBehaviour
 
     //debug
     public bool alwaysDoubleRoll = false;
-    
+
+
+    [SerializeField] bool forceDiceRoll = false;
+    [SerializeField] int dice1;
+    [SerializeField] int dice2;
+
+
 
     private void Awake()
     {
@@ -109,6 +115,11 @@ public class GameManager : MonoBehaviour
         {
             rolledDice[0] = 1;
             rolledDice[1] = 1;
+        }
+        if(forceDiceRoll)
+        {   rolledDice[0] = dice1;
+            rolledDice[1] = dice2;
+              
         }
 
 

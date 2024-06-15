@@ -28,6 +28,10 @@ public class Player
 
     //AI
     int aiMoneySavity = 300;
+    
+    //Human Input Panel
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public static ShowHumanPanel OnShowHumanPanel;
 
     //return info
     public bool IsInJail => isInJail;
@@ -98,11 +102,21 @@ public class Player
     internal void PayRent(int rentAmount, Player owner)
     {//don t have enough money
         if (money < rentAmount)
-        { 
-         //handel insufficent funds > AI
-         HandleInsuficientFunds(rentAmount);
+        {
+            if (playerType == PlayerType.AI)
+            {
+                //handel insufficent funds > AI
+                HandleInsuficientFunds(rentAmount);
+            }
+            else
+            {
+                //disable human tunr and roll dice
+                OnShowHumanPanel.Invoke(true, false, false);
+
+            }
         }
-        money-= rentAmount;
+    
+        money -= rentAmount;
         owner.CollectMoney(rentAmount);
         //update ui
         myInfo.SetPlayerCash(money);
@@ -112,8 +126,17 @@ public class Player
     {
         if (money < amount)
         {
-            //handel insufficent funds > AI
-            HandleInsuficientFunds(amount);
+            if (playerType == PlayerType.AI)
+            {
+                //handel insufficent funds > AI
+                HandleInsuficientFunds(amount);
+            }
+            else
+            {
+                //disable human turn and roll dice
+                OnShowHumanPanel.Invoke(true, false, false);
+
+            }
         }
         money -= amount;
         myInfo.SetPlayerCash(money);
