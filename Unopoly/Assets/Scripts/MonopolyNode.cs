@@ -68,6 +68,12 @@ public class MonopolyNode : MonoBehaviour
     public delegate void DrawChanceCard(Player player);
     public static DrawChanceCard OnDrawChanceCard;
 
+    //Human Input Panel
+
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public static ShowHumanPanel OnShowHumanPanel;
+
+
     private void OnValidate()
     {
         if (nameText != null)
@@ -402,7 +408,7 @@ public class MonopolyNode : MonoBehaviour
         }
         else
         {
-            //show ui
+            OnShowHumanPanel.Invoke(true, GameManager.instance.RolledDouble, !GameManager.instance.RolledDouble);
         }
     }
 
