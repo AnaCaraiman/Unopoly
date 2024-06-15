@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public class CommunityChest : MonoBehaviour
@@ -12,7 +11,6 @@ public class CommunityChest : MonoBehaviour
     [SerializeField] TMP_Text cardText;
     [SerializeField] GameObject cardHolderBackground;
     [SerializeField] float showTime = 3;
-    //[SerializeField] float moveDelay = 0.5f;
     [SerializeField] Button closeCardButton;
 
     List<SCR_CommunityCard> cardPool = new List<SCR_CommunityCard>();
@@ -20,7 +18,10 @@ public class CommunityChest : MonoBehaviour
     //current card and player
     SCR_CommunityCard pickedCard;
     Player currentPlayer;
-    
+    //Human Input Panel
+
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public static ShowHumanPanel OnShowHumanPanel;
     void OnEnable()
     {
         MonopolyNode.OnDrawCommunityCard += Drawcard;
@@ -28,7 +29,7 @@ public class CommunityChest : MonoBehaviour
 
     private void OnDisable()
     {
-        MonopolyNode.OnDrawCommunityCard += Drawcard;
+        MonopolyNode.OnDrawCommunityCard -= Drawcard;
     }
 
     private void Start()
@@ -57,7 +58,7 @@ public class CommunityChest : MonoBehaviour
         pickedCard = cardPool[0];
         cardPool.RemoveAt(0);
         usedCardPool.Add(pickedCard);
-        if(cardPool.Count == 0)
+        if (cardPool.Count == 0)
         {
             //put back all cards
             cardPool.AddRange(usedCardPool);
@@ -72,7 +73,7 @@ public class CommunityChest : MonoBehaviour
         //fill the card text
         cardText.text = pickedCard.textOnCard;
         //deactivate button if we are an ai
-        if(currentPlayer.playerType == Player.PlayerType.AI)
+        if (currentPlayer.playerType == Player.PlayerType.AI)
         {
             closeCardButton.interactable = false;
             Invoke("ApplyCardEffect", showTime);
@@ -81,6 +82,7 @@ public class CommunityChest : MonoBehaviour
         {
             closeCardButton.interactable = true;
         }
+    
     }
 
     public void ApplyCardEffect()//close button of the card
@@ -154,19 +156,23 @@ public class CommunityChest : MonoBehaviour
     {
         if(currentPlayer.playerType == Player.PlayerType.AI)
         {
-            if(isMoving && GameManager.instance.RolledDouble)
+            if(!isMoving && GameManager.instance.RolledDouble)
             {
                 GameManager.instance.RollDice();
             }
-            else if(isMoving && !GameManager.instance.RolledDouble)
+            else if(!isMoving && !GameManager.instance.RolledDouble)
             {
                 GameManager.instance.SwitchPlayer();
             }
         }
         else //human input
         {
-            
+            if (!isMoving)
+            {
+                OnShowHumanPanel.Invoke(true, GameManager.instance.RolledDouble, !GameManager.instance.RolledDouble);
+            }
         }
     }
+
 
 }
