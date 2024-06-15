@@ -154,7 +154,7 @@ public class MonopolyBoard : MonoBehaviour
 
     bool MoveToNextNode(GameObject tokenToMove, Vector3 endPos, float speed)
     {
-        return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed + Time.deltaTime));
+        return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed * Time.deltaTime));
     }
 
     public (List<MonopolyNode> list, bool allsame ) PlayerHasAllNodesofSet(MonopolyNode node)
@@ -165,13 +165,12 @@ public class MonopolyBoard : MonoBehaviour
             if(nodeSet.nodesInSetList.Contains(node))
             {  //linq
                 allsame = nodeSet.nodesInSetList.All(_node => _node.Owner == node.Owner);
-                if (allsame)
-                {
-                    return (nodeSet.nodesInSetList, allsame);
-                }
+                return (nodeSet.nodesInSetList, allsame);
+           
                
             }
         }
         return (null, allsame);
     }
+
 }
