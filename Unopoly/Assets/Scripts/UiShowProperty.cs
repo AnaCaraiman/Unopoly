@@ -23,7 +23,7 @@ public class UiShowProperty : MonoBehaviour
     [SerializeField] TMP_Text hotelRentText;
     [Space]
     [SerializeField] TMP_Text housePriceText;
-    [SerializeField] TMP_Text hotelPriceText;
+    [SerializeField] TMP_Text morgagePriceText;
     [Space]
     [SerializeField] Button buyPropertyButton;
     [Space]
@@ -61,7 +61,7 @@ public class UiShowProperty : MonoBehaviour
         hotelRentText.text = node.rentWithHouses[4] + " RON";
         //cost of buildings
         housePriceText.text = node.houseCost + " RON";
-        hotelPriceText.text = node.houseCost + " RON";
+        morgagePriceText.text = node.houseCost + " RON";
         //bottom bar
         propertyPriceText.text = "Price: " + node.price + " RON";
         playerMoneyText.text = "Your Money: " + currentPlayer.ReadMoney + " RON";
