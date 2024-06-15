@@ -124,7 +124,7 @@ public class MonopolyNode : MonoBehaviour
                 mortgageValue = price / 2;
             }
 
-            if (monopolyNodeType == MonopolyNodeType.Utility) {
+            if (monopolyNodeType == MonopolyNodeType.Railroad) {
                 mortgageValue = price / 2;
             }
         }
@@ -284,7 +284,7 @@ public class MonopolyNode : MonoBehaviour
                         //Debug.Log("Player can afford the property");
                         OnUpdateMessage.Invoke(player.name + " buys Utility" + this.name);
                         player.BuyProperty(this);
-                        //OnOwnerUpdated();
+                        OnOwnerUpdated();
 
                         //show a mesage
 
