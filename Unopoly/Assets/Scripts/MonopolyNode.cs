@@ -427,14 +427,14 @@ public class MonopolyNode : MonoBehaviour
         if(!playerIsHuman)
         {
             //Invoke("ContinueGame", GameManager.instance.SecondsBetweenTurns);
-            currentPlayer.ChangeState(Player.AiStates.TRADING);
+            player.ChangeState(Player.AiStates.TRADING);
         }
         else
         {
             bool canEndTurn = !GameManager.instance.RolledDouble && player.ReadMoney >= 0;
             bool canRollDice = GameManager.instance.RolledDouble && player.ReadMoney >= 0;
-            bool jail1 = currentPlayer.HasChanceJailCard();
-            bool jail2 = currentPlayer.HasCommunityJailCard();
+            bool jail1 = player.HasChanceJailFreeCard;
+            bool jail2 = player.HasCommunityJailFreeCard;
             //SHOW UI
             OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, jail1, jail2);
         }

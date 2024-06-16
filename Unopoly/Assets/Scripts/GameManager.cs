@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
     public bool RolledDouble => rolledADouble;
     public void ResetRolledDouble() => rolledADouble = false;
     int doubleRollCount;
-    bool hadRolledDice;
-    public bool HasRolledDice => hadRolledDice;
+    bool hasRolledDice;
+    public bool HasRolledDice => hasRolledDice;
 
     //tax poll
     int taxPool = 0;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     //Human Input Panel
 
-    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard) );
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard);
     public static ShowHumanPanel OnShowHumanPanel;
 
     //debug
@@ -101,14 +101,14 @@ public class GameManager : MonoBehaviour
 
         if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
         {
-            bool jail1 = playerList[currentPlayer].HasChanceJailCard();
-            bool jail2 = playerList[currentPlayer].HasCommunityJailCard();
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
             OnShowHumanPanel.Invoke(true, true, false, jail1, jail2);
         }
         else
         {
-            bool jail1 = playerList[currentPlayer].HasChanceJailCard();
-            bool jail2 = playerList[currentPlayer].HasCommunityJailCard();
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
             OnShowHumanPanel.Invoke(false, false, false, jail1, jail2);
         }
     }
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     public void  RollDice() //press button from human or auto ai
     {
         bool allowedToMove = true;
-        hadRolledDice = true;
+        hasRolledDice = true;
 
         //jail free card
         if (playerList[currentPlayer].IsInJail && playerList[currentPlayer].playerType == Player.PlayerType.AI)
@@ -223,8 +223,8 @@ public class GameManager : MonoBehaviour
         //show or hide
         if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
         {
-            bool jail1 = playerList[currentPlayer].HasChanceJailCard();
-            bool jail2 = playerList[currentPlayer].HasCommunityJailCard();
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
             OnShowHumanPanel.Invoke(true, false, false, jail1, jail2); 
         }
 
@@ -269,8 +269,8 @@ public class GameManager : MonoBehaviour
         }
         else //human
         {
-            bool jail1 = playerList[currentPlayer].HasChanceJailCard();
-            bool jail2 = playerList[currentPlayer].HasCommunityJailCard();
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
             OnShowHumanPanel.Invoke(true, true, false, jail1, jail2);
         }
     }

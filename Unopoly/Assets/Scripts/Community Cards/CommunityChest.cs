@@ -174,15 +174,15 @@ public class CommunityChest : MonoBehaviour
         {
             if (!isMoving)
             {
-                GameMnaager.instance.Continue();
+                GameManager.instance.Continue();
             }
         }
         else //human input
         {
             if (!isMoving)
             {
-                bool jail1 = currentPlayer.HasChanceJailCard();
-                bool jail2 = currentPlayer.HasCommunityJailCard();
+                bool jail1 = currentPlayer.HasChanceJailFreeCard;
+                bool jail2 = currentPlayer.HasCommunityJailFreeCard;
                 OnShowHumanPanel.Invoke(true, GameManager.instance.RolledDouble, !GameManager.instance.RolledDouble, jail1, jail2);
             }
         }

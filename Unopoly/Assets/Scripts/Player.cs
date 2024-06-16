@@ -91,10 +91,10 @@ public class Player
         money += amount;
         myInfo.SetPlayerCash(money);
 
-        if (playerType == PlayerType.HUMAN && GameManager.instance.GetCurrentPlayer == this)
+        if (playerType == PlayerType.Human && GameManager.instance.GetCurrentPlayer == this)
         {
-            bool canEndTurn = !GameManager.instance.RolledADouble && ReadMoney >= 0 && GameManager.instance.HasRolledDice;
-            bool canRollDice = (GameManager.instance.RolledADouble && ReadMoney >= 0) || (!GameManager.instance.HasRolledDice && ReadMoney >= 0);
+            bool canEndTurn = !GameManager.instance.RolledDouble && ReadMoney >= 0 && GameManager.instance.HasRolledDice;
+            bool canRollDice = (GameManager.instance.RolledDouble && ReadMoney >= 0) || (!GameManager.instance.HasRolledDice && ReadMoney >= 0);
             //SHOW UI
             OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, hasChanceJailFreeCard, hasCommunityJailFreeCard);
         }
@@ -157,7 +157,7 @@ public class Player
             else
             {
                 //disable human turn and roll dice
-                OnShowHumanPanel.Invoke(true, false, false);
+                OnShowHumanPanel.Invoke(true, false, false, hasChanceJailFreeCard, hasCommunityJailFreeCard);
             
             }
         }
@@ -297,7 +297,7 @@ public class Player
     }
 
     //bankrupt - game over
-    void Bankrupt()
+    public void Bankrupt()
     {
         //take out of the game
 
@@ -309,12 +309,12 @@ public class Player
             myMonopolyNodes[i].ResetNode();
         }
 
-        if(hasChanceFreeCard)
+        if(hasChanceJailFreeCard)
         {
             ChanceField.instance.AddBackJailFreeCard();
         }
 
-        if(hasCommunityFreeCard)
+        if(hasCommunityJailFreeCard)
         {
             CommunityChest.instance.AddBackJailFreeCard();
         }
@@ -482,6 +482,7 @@ public class Player
                 }
                 break;
         }
+    }
 
         //jail free card
         public void AddChanceJailFreeCard()

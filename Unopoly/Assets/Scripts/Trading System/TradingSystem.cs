@@ -14,7 +14,7 @@ public class TradingSystem : MonoBehaviour
     [SerializeField] GameObject resultPanel;
     [SerializeField] TMP_Text resultMessageText;
     [Header("LEFT SIDE")]
-    [SerializeField] TPM_Text leftOffererNameText;
+    [SerializeField] TMP_Text leftOffererNameText;
     [SerializeField] Transform leftCardGrid;
     [SerializeField] ToggleGroup leftToggleGroup; //to toggle the card selection
     [SerializeField] TMP_Text leftYourMoneyText;
@@ -29,7 +29,7 @@ public class TradingSystem : MonoBehaviour
     List<GameObject> playerButtonList = new List<GameObject>();
 
     [Header("RIGHT SIDE")]
-    [SerializeField] TPM_Text rightOffererNameText;
+    [SerializeField] TMP_Text rightOffererNameText;
     [SerializeField] Transform rightCardGrid;
     [SerializeField] ToggleGroup rightToggleGroup; //to toggle the card selection
     [SerializeField] TMP_Text rightYourMoneyText;
@@ -312,7 +312,7 @@ public class TradingSystem : MonoBehaviour
 
     public void OpenTradePanel(Player currentPlayer)
     {
-        leftPlayerReferene = GameManager.instance.currentPlayer;
+        leftPlayerReferene = GameManager.instance.GetCurrentPlayer;
         rightOffererNameText.text = "Select a Player";
 
         CreateLeftPanel();
@@ -364,7 +364,7 @@ public class TradingSystem : MonoBehaviour
         foreach (var player in allPlayers)
         {
             GameObject newPlayerButton = Instantiate(playerButtonPrefab, buttonGrid, false);
-            playerButton.GetComponent<TradePlayerButton>().SetPlayer(player);
+            newPlayerButton.GetComponent<TradePlayerButton>().SetPlayer(player);
             playerButtonList.Add(newPlayerButton);
         }
     }
@@ -475,46 +475,46 @@ public class TradingSystem : MonoBehaviour
 
         if (leftCard.activeInHierarchy)
         {
-            leftColorField.color = (offerNode.propertyColorField != null) ? offerNode.propertyColorField : Color.black;
-            switch (offeredNode.monopolyNodeType)
+            leftColorField.color = (offerNode.propertyColorField != null) ? offerNode.propertyColorField.color : Color.black; // Access the color property
+            switch (offerNode.monopolyNodeType)
             {
                 case MonopolyNodeType.Property:
                     leftPropImage.sprite = houseSprite;
-                    leftPropImage.color = color.pink;
+                    leftPropImage.color = Color.red;
                     break;
                 case MonopolyNodeType.Railroad:
                     leftPropImage.sprite = railroadSprite;
-                    leftPropImage.color = color.white;
+                    leftPropImage.color = Color.white;
                     break;
                 case MonopolyNodeType.Utility:
                     leftPropImage.sprite = utilitySprite;
-                    leftPropImage.color = color.black;
+                    leftPropImage.color = Color.black;
                     break;
             }
         }
 
         if (rightCard.activeInHierarchy)
         {
-            rightColorField.color = (requestedNode.propertyColorField != null) ? requestedNode.propertyColorField : Color.black;
+            rightColorField.color = (requestedNode.propertyColorField != null) ? requestedNode.propertyColorField.color : Color.black; // Access the color property
             switch (requestedNode.monopolyNodeType)
             {
                 case MonopolyNodeType.Property:
                     rightPropImage.sprite = houseSprite;
-                    rightPropImage.color = color.pink;
+                    rightPropImage.color = Color.red;
                     break;
                 case MonopolyNodeType.Railroad:
                     rightPropImage.sprite = railroadSprite;
-                    rightPropImage.color = color.white;
+                    rightPropImage.color = Color.white;
                     break;
                 case MonopolyNodeType.Utility:
                     rightPropImage.sprite = utilitySprite;
-                    rightPropImage.color = color.black;
+                    rightPropImage.color = Color.black; 
                     break;
             }
         }
     }
 
-    public void AcceptOffer()
+        public void AcceptOffer()
     {
         Trade(currentPlayer, nodeOwner, requestedNode, offerNode, offeredMoney, requestedMoney);
         ResetOffer();
