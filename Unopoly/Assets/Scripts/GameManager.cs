@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     //debug
     public bool alwaysDoubleRoll = false;
 
-
     [SerializeField] bool forceDiceRoll = false;
     [SerializeField] int dice1;
     [SerializeField] int dice2;
@@ -69,11 +68,21 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
+    void Start()
     {
         currentPlayer = Random.Range(0, playerList.Count);
         gameOverPanel.SetActive(false);
         Initialize();
+        CameraSwitcher.instance.SwitchToTopDown();
+
+        StartCoroutine(StartGame());
+        OnUpdateMessage.Invoke("Welcome to <b><color=black>Monpoly 3D");
+        
+    }
+
+    IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(3f);
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
             //RollDice();
@@ -88,19 +97,43 @@ public class GameManager : MonoBehaviour
 
     void Initialize()
     {
-        //initialize the players
-        for (int i = 0; i < playerList.Count; i++)
+        if(GameSettings.settingsList.Count == 0)
         {
+            Debug.LogError("Start the game from Main Menu!");
+            return;
+        }
+
+        foreach (var setting in GameSettings.settingsList)
+        {
+            Player p1 = new Player();
+            p1.name = setting.playerName;
+            p1.playerType = (Player.PlayerType)setting.selectedType;
+            
+            playerList.Add(p1);
+
+
             GameObject infoObject = Instantiate(playerInfoPrefab, playerPanel, false);
             PlayerInfo info = infoObject.GetComponent<PlayerInfo>();
 
-            //randomize the player token
-            int randIndex = Random.Range(0, playerTokenList.Count);
-            //initialize the player
-            GameObject newToken = Instantiate(playerTokenList[randIndex], gameBoard.route[0].transform.position, Quaternion.identity);
-
-            playerList[i].Init(gameBoard.route[0], startingMoney, info, newToken);
+            GameObject newToken = Instantiate(playerTokenList[setting.selectedColor], gameBoard.route[0].transform.position, Quaternion.identity);
+            p1.Init(gameBoard.route[0], startingMoney, info, newToken);
         }
+        //initialize the players
+        //for (int i = 0; i < playerList.Count; i++)
+        //{
+        //    GameObject infoObject = Instantiate(playerInfoPrefab, playerPanel, false);
+        //    PlayerInfo info = infoObject.GetComponent<PlayerInfo>();
+        //
+        //    //randomize the player token
+        //    int randIndex = Random.Range(0, playerTokenList.Count);
+        //    //initialize the player
+        //    GameObject newToken = Instantiate(playerTokenList[randIndex], gameBoard.route[0].transform.position, Quaternion.identity);
+        //
+        //    playerList[i].Init(gameBoard.route[0], startingMoney, info, newToken);
+        //}
+
+
+
         playerList[currentPlayer].ActivateSelector(true);
 
         if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
@@ -123,6 +156,15 @@ public class GameManager : MonoBehaviour
         rolledDice.Clear();
         _dice1.RollDice();
         _dice2.RollDice();
+        CameraSwitcher.instance.SwitchToDice();
+
+                //show or hide
+        if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
+        {
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
+            OnShowHumanPanel.Invoke(true, false, false, jail1, jail2); 
+        }
     }
 
     void CheckForJailFree()
@@ -244,19 +286,11 @@ public class GameManager : MonoBehaviour
         }
 
 
-        //show or hide
-        if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
-        {
-            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
-            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
-            OnShowHumanPanel.Invoke(true, false, false, jail1, jail2); 
-        }
-
-
     }
 
     IEnumerator DelayBeforeMove(int rolledDice)
     {
+        CameraSwitcher.instance.SwitchToPlayer(playerList[currentPlayer].MyToken.transform);
         yield return new WaitForSeconds(secondsBetweenTurns);
         //if we are allowed to move -> move
         gameBoard.MovePlayerToken(rolledDice, playerList[currentPlayer]);
@@ -271,6 +305,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchPlayer()
     {
+        CameraSwitcher.instance.SwitchToTopDown();
         currentPlayer++;
 
         //reset dice
