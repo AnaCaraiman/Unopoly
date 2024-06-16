@@ -14,16 +14,16 @@ public class UiShowRailroad : MonoBehaviour
     [Header("Buy Railroad UI")]
     [SerializeField] GameObject railroadUiPanel;
     [SerializeField] TMP_Text railroadNameText;
-    
+
     [Space]
-    
+
     [SerializeField] TMP_Text oneRailroadRentText;
     [SerializeField] TMP_Text twoRailroadRentText;
     [SerializeField] TMP_Text threeRailroadRentText;
     [SerializeField] TMP_Text fourRailroadRentText;
 
     [Space]
-  
+
     [SerializeField] TMP_Text morgagePriceText;
     [Space]
     [SerializeField] Button buyRailRoadButton;
@@ -47,17 +47,17 @@ public class UiShowRailroad : MonoBehaviour
         playerReference = currentPlayer;
         //top panel content
         railroadNameText.text = node.name;
-       // colorField.color = node.propertyColorField.color;
+        // colorField.color = node.propertyColorField.color;
         //center of the card
         //result = baseRent * (int)Mathf.Pow(2, amount-1); 
 
         oneRailroadRentText.text = node.baseRent * (int)Mathf.Pow(2, 1 - 1) + " RON";
-        twoRailroadRentText.text = node.baseRent * (int)Mathf.Pow(2, 2 - 1)  + " RON";
+        twoRailroadRentText.text = node.baseRent * (int)Mathf.Pow(2, 2 - 1) + " RON";
         threeRailroadRentText.text = node.baseRent * (int)Mathf.Pow(2, 3 - 1) + " RON";
         fourRailroadRentText.text = node.baseRent * (int)Mathf.Pow(2, 4 - 1) + " RON";
-       
+
         //cost of buildings
-      
+
         morgagePriceText.text = node.houseCost + " RON";
         //bottom bar
         propertyPriceText.text = "Price: " + node.price + " RON";
