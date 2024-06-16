@@ -24,14 +24,28 @@ public class Player
     [SerializeField] List<MonopolyNode> myMonopolyNodes = new List<MonopolyNode>();
     public List<MonopolyNode> GetMonopolyNodes => myMonopolyNodes;
 
+    bool hasChanceJailFreeCard, hasCommunityJailFreeCard;
+
+    public bool HasChanceJailFreeCard => hasChanceJailFreeCard;
+    public bool HasCommunityJailFreeCard => hasCommunityJailFreeCard;
+
     //PlayerInfo
     PlayerInfo myInfo;
 
     //AI
     int aiMoneySavity = 300;
-    
+
+    //AI states
+    public enum AiStates
+    {
+        IDLE,
+        TRADING
+    }
+
+    public AiStates aiState;
+
     //Human Input Panel
-    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard);
     public static ShowHumanPanel OnShowHumanPanel;
 
     //return info
@@ -67,7 +81,7 @@ public class Player
             //check for umortgaged properties
             UnmortgageProperties();
             //check if he could trade
-            TradingSystem.instance.FindMissingProperty(this);
+            //TradingSystem.instance.FindMissingProperty(this);
 
         } 
     }
@@ -76,12 +90,13 @@ public class Player
     {
         money += amount;
         myInfo.SetPlayerCash(money);
-        if(playerType == PlayerType.Human && GameManager.instance.GetCurrentPlayer == this)
+
+        if (playerType == PlayerType.Human && GameManager.instance.GetCurrentPlayer == this)
         {
-            bool canEndTurn = !GameManager.instance.RolledDouble && ReadMoney>=0;
-            bool canRollDice = GameManager.instance.RolledDouble && ReadMoney >= 0;
+            bool canEndTurn = !GameManager.instance.RolledDouble && ReadMoney >= 0 && GameManager.instance.HasRolledDice;
+            bool canRollDice = (GameManager.instance.RolledDouble && ReadMoney >= 0) || (!GameManager.instance.HasRolledDice && ReadMoney >= 0);
             //SHOW UI
-            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn);
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, hasChanceJailFreeCard, hasCommunityJailFreeCard);
         }
     }
     internal bool CanAffordNode(int price)
@@ -119,7 +134,7 @@ public class Player
             else
             {
                 //disable human tunr and roll dice
-                OnShowHumanPanel.Invoke(true, false, false);
+                OnShowHumanPanel.Invoke(true, false, false, hasChanceJailFreeCard, hasCommunityJailFreeCard);
 
             }
         }
@@ -139,12 +154,12 @@ public class Player
                 //handel insufficent funds > AI
                 HandleInsuficientFunds(amount);
             }
-            //else
-            //{
-            //    //disable human turn and roll dice
-            //    OnShowHumanPanel.Invoke(true, false, false);
-            //
-            //}
+            else
+            {
+                //disable human turn and roll dice
+                OnShowHumanPanel.Invoke(true, false, false, hasChanceJailFreeCard, hasCommunityJailFreeCard);
+            
+            }
         }
         money -= amount;
         myInfo.SetPlayerCash(money);
@@ -154,7 +169,7 @@ public class Player
             bool canEndTurn = !GameManager.instance.RolledDouble && ReadMoney >= 0;
             bool canRollDice = GameManager.instance.RolledDouble && ReadMoney >= 0;
             //SHOW UI
-            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn);
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, hasChanceJailFreeCard, hasCommunityJailFreeCard);
         }
     }
 
@@ -274,12 +289,15 @@ public class Player
                 }
             }
         }
-        Bankrupt();
+        if(playerType == PlayerType.AI)
+        {
+            Bankrupt();
+        }
 
     }
 
     //bankrupt - game over
-    void Bankrupt()
+    public void Bankrupt()
     {
         //take out of the game
 
@@ -290,6 +308,17 @@ public class Player
         {
             myMonopolyNodes[i].ResetNode();
         }
+
+        if(hasChanceJailFreeCard)
+        {
+            ChanceField.instance.AddBackJailFreeCard();
+        }
+
+        if(hasCommunityJailFreeCard)
+        {
+            CommunityChest.instance.AddBackJailFreeCard();
+        }
+
         //remove the player
         GameManager.instance.RemovePlayer(this);
     }
@@ -429,4 +458,64 @@ public class Player
         myMonopolyNodes.Remove(node);
         SortPropertiesByPrice();
     }
- }
+
+    public void ChangeState(AiStates state)
+    {
+        if (playerType == PlayerType.Human)
+        {
+            return;
+        }
+
+        aiState = state;
+        switch (aiState)
+        {
+            case AiStates.IDLE:
+                {
+                    //continue game
+                    GameManager.instance.Continue();
+                }
+                break;
+            case AiStates.TRADING:
+                {
+                    //hold until continue
+                    TradingSystem.instance.FindMissingProperty(this);
+                }
+                break;
+        }
+    }
+
+        //jail free card
+        public void AddChanceJailFreeCard()
+        {
+            hasChanceJailFreeCard = true;
+        }
+
+        public void AddCommunityJailFreeCard()
+        {
+            hasCommunityJailFreeCard = true;
+        }
+
+        public void UseCommunityJailFreeCard()//jail2
+        {
+            if(!IsInJail)
+            {
+                return;
+            }
+            hasCommunityJailFreeCard = false;
+            SetOutOfJail();
+            CommunityChest.instance.AddBackJailFreeCard();
+            OnUpdateMessage.Invoke(name + " used a Jail Free Card.");
+        }
+
+        public void UseChanceJailFreeCard()//jail1
+        {
+            if (!IsInJail)
+            {
+                return;
+            }
+            hasChanceJailFreeCard = false;
+            SetOutOfJail();
+            ChanceField.instance.AddBackJailFreeCard();
+            OnUpdateMessage.Invoke(name + " used a Jail Free Card.");
+        }
+    }

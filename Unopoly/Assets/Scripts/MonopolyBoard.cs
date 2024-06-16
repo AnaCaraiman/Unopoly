@@ -100,6 +100,9 @@ public class MonopolyBoard : MonoBehaviour
 
     IEnumerator MovePlayerInSteps(int steps, Player player)
     {
+        //wait a little
+        yield return new WaitForSeconds(0.5f);
+        
         int stepsLeft = steps;
         GameObject tokenToMove = player.MyToken;
         int indexOnBoard = route.IndexOf(player.MyMonopolyNode);
@@ -157,7 +160,7 @@ public class MonopolyBoard : MonoBehaviour
         return endPos != (tokenToMove.transform.position = Vector3.MoveTowards(tokenToMove.transform.position,endPos,speed * Time.deltaTime));
     }
 
-    public (List<MonopolyNode> list, bool allsame ) PlayerHasAllNodesofSet(MonopolyNode node)
+    public (List<MonopolyNode> list, bool allSame ) PlayerHasAllNodesofSet(MonopolyNode node)
     {
         bool allsame = false;
         foreach(var nodeSet in nodeSetList)
