@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Build.Content;
 using UnityEngine;
 
@@ -19,7 +20,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerInfoPrefab;
     [SerializeField] Transform playerPanel; //for the player info prefabs to become parented to
     [SerializeField] List<GameObject> playerTokenList = new List<GameObject>();
-
+    [Header("Game Over/ Win Info")]
+    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] TMP_Text winnerNameText;
 
     //rolling dice info
     int[] rolledDice;
@@ -27,6 +30,9 @@ public class GameManager : MonoBehaviour
     public bool RolledDouble => rolledADouble;
     public void ResetRolledDouble() => rolledADouble = false;
     int doubleRollCount;
+    bool hasRolledDice;
+    public bool HasRolledDice => hasRolledDice;
+
     //tax poll
     int taxPool = 0;
 
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     //Human Input Panel
 
-    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard);
     public static ShowHumanPanel OnShowHumanPanel;
 
     //debug
@@ -62,6 +68,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        currentPlayer = Random.Range(0, playerList.Count);
+        gameOverPanel.SetActive(false);
         Initialize();
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
         else
         {
             //show the roll dice button
+            OnShowHumanPanel.Invoke(true, true, false, false, false);
         }
     }
 
@@ -92,17 +101,37 @@ public class GameManager : MonoBehaviour
 
         if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
         {
-            OnShowHumanPanel.Invoke(true, true, false);
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
+            OnShowHumanPanel.Invoke(true, true, false, jail1, jail2);
         }
         else
-        { 
-            OnShowHumanPanel.Invoke(false, false, false);
+        {
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
+            OnShowHumanPanel.Invoke(false, false, false, jail1, jail2);
         }
     }
 
     public void  RollDice() //press button from human or auto ai
     {
         bool allowedToMove = true;
+        hasRolledDice = true;
+
+        //jail free card
+        if (playerList[currentPlayer].IsInJail && playerList[currentPlayer].playerType == Player.PlayerType.AI)
+        {
+            if (playerList[currentPlayer].HasChanceJailFreeCard)
+            {
+                playerList[currentPlayer].UseChanceJailFreeCard();
+            }
+            else if (playerList[currentPlayer].HasCommunityJailFreeCard)
+            {
+                playerList[currentPlayer].UseCommunityJailFreeCard();
+            }
+
+        }
+
         //reset last roll
         rolledDice = new int[2];
         //any roll dice and store the value
@@ -194,7 +223,9 @@ public class GameManager : MonoBehaviour
         //show or hide
         if (playerList[currentPlayer].playerType == Player.PlayerType.Human)
         {
-            OnShowHumanPanel.Invoke(true, false, false); 
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
+            OnShowHumanPanel.Invoke(true, false, false, jail1, jail2); 
         }
 
 
@@ -218,6 +249,9 @@ public class GameManager : MonoBehaviour
     {
         currentPlayer++;
 
+        //reset dice
+        hasRolledDice = false;
+
         doubleRollCount = 0;
 
         if (currentPlayer >= playerList.Count)
@@ -231,11 +265,13 @@ public class GameManager : MonoBehaviour
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
             RollDice();
-            OnShowHumanPanel.Invoke(false, false, false);
+            OnShowHumanPanel.Invoke(false, false, false, false, false);
         }
         else //human
         {
-            OnShowHumanPanel.Invoke(true, true, false);
+            bool jail1 = playerList[currentPlayer].HasChanceJailFreeCard;
+            bool jail2 = playerList[currentPlayer].HasCommunityJailFreeCard;
+            OnShowHumanPanel.Invoke(true, true, false, jail1, jail2);
         }
     }
 
@@ -270,7 +306,9 @@ public class GameManager : MonoBehaviour
             OnUpdateMessage.Invoke(playerList[0].name + " has won the game!");
             //stop the game loop
 
-            //show ai
+            //show ui
+            gameOverPanel.SetActive(true);
+            winnerNameText.text = playerList[0].name;
         }
     }
 
@@ -280,5 +318,47 @@ public class GameManager : MonoBehaviour
         {
             player.ActivateSelector(false);
         }
+    }
+
+    //continue game
+    public void Continue()
+    {
+        if (playerList.Count > 1)
+        {
+            Invoke("ContinueGame", SecondsBetweenTurns);
+        }
+    }
+
+
+    void ContinueGame()
+    {
+        //check if we rolled a double
+        if (RolledDouble)
+        {
+            //roll again
+            RollDice();
+        }
+        else
+        {
+            //switch player
+            SwitchPlayer();
+
+        }
+    }
+
+    public void HumanBankrupt()
+    {
+        playerList[currentPlayer].Bankrupt();
+    }
+
+    //jail free cards buttons
+    public void UseJail1Card()
+    {
+        playerList[currentPlayer].UseChanceJailFreeCard();
+    }
+
+    public void UseJail2Card()
+    {
+        playerList[currentPlayer].UseCommunityJailFreeCard();
     }
 }
