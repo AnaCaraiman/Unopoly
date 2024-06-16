@@ -23,9 +23,12 @@ public class GameManager : MonoBehaviour
     [Header("Game Over/ Win Info")]
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] TMP_Text winnerNameText;
+    [Header("Dice")]
+    [SerializeField] Dice _dice1;
+    [SerializeField] Dice _dice2;
 
     //rolling dice info
-    int[] rolledDice;
+    List<int> rolledDice;
     bool rolledADouble;
     public bool RolledDouble => rolledADouble;
     public void ResetRolledDouble() => rolledADouble = false;
@@ -73,7 +76,8 @@ public class GameManager : MonoBehaviour
         Initialize();
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
-            RollDice();
+            //RollDice();
+            RollPhysicalDice();
         }
         else
         {
@@ -113,11 +117,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void  RollDice() //press button from human or auto ai
+    void RollPhysicalDice()
     {
-        bool allowedToMove = true;
-        hasRolledDice = true;
+        CheckForJailFree();
+        rolledDice.Clear();
+        _dice1.RollDice();
+        _dice2.RollDice();
+    }
 
+    void CheckForJailFree()
+    {
         //jail free card
         if (playerList[currentPlayer].IsInJail && playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
@@ -131,26 +140,41 @@ public class GameManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void ReportDiceRolled(int diceValue)
+    {
+        rolledDice.Add(diceValue);
+        if(rolledDice.Count == 2)
+        {
+            RollDice();
+        }
+    }
+    
+    public void  RollDice() //press button from human or auto ai
+    {
+        bool allowedToMove = true;
+        hasRolledDice = true;
 
         //reset last roll
-        rolledDice = new int[2];
+        //rolledDice = new int[2];
         //any roll dice and store the value
-        rolledDice[0] = Random.Range(1,7);
-        rolledDice[1] = Random.Range(1, 7);
+        //rolledDice[0] = Random.Range(1,7);
+        //rolledDice[1] = Random.Range(1, 7);
 
 
         Debug.Log("Rolled: " + rolledDice[0] + " and " + rolledDice[1]);
 
-        if(alwaysDoubleRoll)
-        {
-            rolledDice[0] = 1;
-            rolledDice[1] = 1;
-        }
-        if(forceDiceRoll)
-        {   rolledDice[0] = dice1;
-            rolledDice[1] = dice2;
+        //if(alwaysDoubleRoll)
+        //{
+            //rolledDice[0] = 1;
+            //rolledDice[1] = 1;
+        //}
+        //if(forceDiceRoll)
+        //{   rolledDice[0] = dice1;
+            //rolledDice[1] = dice2;
               
-        }
+        //}
 
 
 
@@ -264,7 +288,8 @@ public class GameManager : MonoBehaviour
 
         if (playerList[currentPlayer].playerType == Player.PlayerType.AI)
         {
-            RollDice();
+            //RollDice();
+            RollPhysicalDice();
             OnShowHumanPanel.Invoke(false, false, false, false, false);
         }
         else //human
@@ -275,7 +300,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int[] LastRolledDice => rolledDice;
+    public List<int> LastRolledDice => rolledDice;
 
     public void AddTaxToPool(int amount)
     {
@@ -336,7 +361,8 @@ public class GameManager : MonoBehaviour
         if (RolledDouble)
         {
             //roll again
-            RollDice();
+            //RollDice();
+            RollPhysicalDice();
         }
         else
         {
