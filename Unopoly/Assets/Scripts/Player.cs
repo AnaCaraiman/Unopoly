@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UIElements;
+using JetBrains.Annotations;
 
 [System.Serializable]
 public class Player
@@ -331,7 +332,7 @@ public class Player
             }
         }
 
-        void BuildHouseOrHotelEvenly(List<MonopolyNode> nodesToBuildOn)
+        internal void BuildHouseOrHotelEvenly(List<MonopolyNode> nodesToBuildOn)
         {
             int minHouses = int.MaxValue;
             int maxHouses = int.MinValue;
@@ -359,16 +360,41 @@ public class Player
                 }
             }
 
-            bool CanAffordHouse(int price)
-            {
-                if (playerType == PlayerType.AI)
-                {
-                    return (money - aiMoneySavity) >= price;
-                }
 
-                return money >= price;  //human only
-            }
+           
+            
         }
+    internal void SellHouseEvenly(List<MonopolyNode> nodesToSellFrom)
+    {
+        int minHouses = int.MaxValue;
+        foreach (var node in nodesToSellFrom)
+        {  
+            minHouses = Mathf.Min(minHouses, node.NumberOfHouses);
+        
+        }
+        //sell house
+        for (int i=nodesToSellFrom.Count-1; i>=0; i--)
+        {
+            if (nodesToSellFrom[i].NumberOfHouses > minHouses)
+            {
+               CollectMoney( nodesToSellFrom[i].SellHouseOrHotel());
+                break;
+            }
+
+        }
+
+    }
+
+
+   internal bool CanAffordHouse(int price)
+    {
+        if (playerType == PlayerType.AI)
+        {
+            return (money - aiMoneySavity) >= price;
+        }
+
+        return money >= price;  //human only
+    }
 
     public void ActivateSelector(bool active)
     {
