@@ -310,7 +310,7 @@ public class TradingSystem : MonoBehaviour
         ClearAll();
     }
 
-    public void OpenTradePanel(Player currentPlayer)
+    public void OpenTradePanel()
     {
         leftPlayerReferene = GameManager.instance.GetCurrentPlayer;
         rightOffererNameText.text = "Select a Player";

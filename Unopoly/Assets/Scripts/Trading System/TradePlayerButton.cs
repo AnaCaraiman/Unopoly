@@ -14,7 +14,7 @@ public class TradePlayerButton : MonoBehaviour
 		playerNameText.text = player.name;
 	}
 
-	public void OnClick()
+	public void SelectPlayer()
 	{
 		TradingSystem.instance.ShowRightPlayer(playerReference);
 	}
