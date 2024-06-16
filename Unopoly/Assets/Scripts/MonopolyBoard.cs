@@ -150,7 +150,7 @@ public class MonopolyBoard : MonoBehaviour
         
         if(moveOverGo)
         {
-            //player.CollectMoney(GameManager.instance.GetMoney);
+            player.CollectMoney(GameManager.instance.GetGoMoney);
         }
         player.SetMyCurrentNode(route[indexOnBoard]);
     }
