@@ -430,7 +430,10 @@ public class MonopolyNode : MonoBehaviour
         }
         else
         {
-            OnShowHumanPanel.Invoke(true, GameManager.instance.RolledDouble, !GameManager.instance.RolledDouble);
+            bool canEndTurn = !GameManager.instance.RolledDouble && player.ReadMoney >= 0;
+            bool canRollDice = GameManager.instance.RolledDouble && player.ReadMoney >= 0;
+            //SHOW UI
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn);
         }
     }
 
@@ -585,12 +588,13 @@ public class MonopolyNode : MonoBehaviour
     }
     public int SellHouseOrHotel()
     {
-        if (monopolyNodeType == MonopolyNodeType.Property)
+        if (monopolyNodeType == MonopolyNodeType.Property && numberOfHouses > 0)
         {
             numberOfHouses--;
             VisualizeHouses();
+            return houseCost / 2;
         }
-        return houseCost / 2;
+        return 0;
     }
 
     public void ResetNode()
