@@ -71,7 +71,7 @@ public class MonopolyNode : MonoBehaviour
 
     //Human Input Panel
 
-    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard);
     public static ShowHumanPanel OnShowHumanPanel;
 
     //property buy panel
@@ -426,29 +426,35 @@ public class MonopolyNode : MonoBehaviour
         //continue
         if(!playerIsHuman)
         {
-            Invoke("ContinueGame", GameManager.instance.SecondsBetweenTurns);
+            //Invoke("ContinueGame", GameManager.instance.SecondsBetweenTurns);
+            currentPlayer.ChangeState(Player.AiStates.TRADING);
         }
         else
         {
-            OnShowHumanPanel.Invoke(true, GameManager.instance.RolledDouble, !GameManager.instance.RolledDouble);
+            bool canEndTurn = !GameManager.instance.RolledDouble && player.ReadMoney >= 0;
+            bool canRollDice = GameManager.instance.RolledDouble && player.ReadMoney >= 0;
+            bool jail1 = currentPlayer.HasChanceJailCard();
+            bool jail2 = currentPlayer.HasCommunityJailCard();
+            //SHOW UI
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, jail1, jail2);
         }
     }
 
-    void ContinueGame()
-    {
-        //check if we rolled a double
-        if (GameManager.instance.RolledDouble)
-        {
-            //roll again
-            GameManager.instance.RollDice();
-        }
-        else
-        {
-            //not a double, switch player
-            GameManager.instance.SwitchPlayer();
-
-        }
-    }
+//    void ContinueGame()
+ //   {
+ //       //check if we rolled a double
+ //       if (GameManager.instance.RolledDouble)
+ //       {
+ //           //roll again
+ //           GameManager.instance.RollDice();
+ //       }
+ //       else
+ //       {
+ //           //not a double, switch player
+ //           GameManager.instance.SwitchPlayer();
+ //
+ //       }
+ //   }
 
     int CalculatePropertyRent()
     {
@@ -585,12 +591,13 @@ public class MonopolyNode : MonoBehaviour
     }
     public int SellHouseOrHotel()
     {
-        if (monopolyNodeType == MonopolyNodeType.Property)
+        if (monopolyNodeType == MonopolyNodeType.Property && numberOfHouses > 0)
         {
             numberOfHouses--;
             VisualizeHouses();
+            return houseCost / 2;
         }
-        return houseCost / 2;
+        return 0;
     }
 
     public void ResetNode()
@@ -612,6 +619,8 @@ public class MonopolyNode : MonoBehaviour
         //remove propery from owner
         owner.RemoveProperty(this);
         owner.name = "";
+        owner.ActivateSelector(false);
+        owner = null;
         OnOwnerUpdated();
     }
 

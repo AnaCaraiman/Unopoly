@@ -100,6 +100,9 @@ public class MonopolyBoard : MonoBehaviour
 
     IEnumerator MovePlayerInSteps(int steps, Player player)
     {
+        //wait a little
+        yield return new WaitForSeconds(0.5f);
+        
         int stepsLeft = steps;
         GameObject tokenToMove = player.MyToken;
         int indexOnBoard = route.IndexOf(player.MyMonopolyNode);
@@ -147,7 +150,7 @@ public class MonopolyBoard : MonoBehaviour
         
         if(moveOverGo)
         {
-            //player.CollectMoney(GameManager.instance.GetMoney);
+            player.CollectMoney(GameManager.instance.GetGoMoney);
         }
         player.SetMyCurrentNode(route[indexOnBoard]);
     }

@@ -24,14 +24,28 @@ public class Player
     [SerializeField] List<MonopolyNode> myMonopolyNodes = new List<MonopolyNode>();
     public List<MonopolyNode> GetMonopolyNodes => myMonopolyNodes;
 
+    bool hasChanceJailFreeCard, hasCommunityJailFreeCard;
+
+    public bool HasChanceJailFreeCard => hasChanceJailFreeCard;
+    public bool HasCommunityJailFreeCard => hasCommunityJailFreeCard;
+
     //PlayerInfo
     PlayerInfo myInfo;
 
     //AI
     int aiMoneySavity = 300;
-    
+
+    //AI states
+    public enum AiStates
+    {
+        IDLE,
+        TRADING
+    }
+
+    public AiStates aiState;
+
     //Human Input Panel
-    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn);
+    public delegate void ShowHumanPanel(bool activatePanel, bool activateRollDice, bool activateEndTurn, bool hasChanceJailCard, bool hasCommunityJailCard);
     public static ShowHumanPanel OnShowHumanPanel;
 
     //return info
@@ -67,7 +81,7 @@ public class Player
             //check for umortgaged properties
             UnmortgageProperties();
             //check if he could trade
-            TradingSystem.instance.FindMissingProperty(this);
+            //TradingSystem.instance.FindMissingProperty(this);
 
         } 
     }
@@ -76,6 +90,14 @@ public class Player
     {
         money += amount;
         myInfo.SetPlayerCash(money);
+
+        if (playerType == PlayerType.HUMAN && GameManager.instance.GetCurrentPlayer == this)
+        {
+            bool canEndTurn = !GameManager.instance.RolledADouble && ReadMoney >= 0 && GameManager.instance.HasRolledDice;
+            bool canRollDice = (GameManager.instance.RolledADouble && ReadMoney >= 0) || (!GameManager.instance.HasRolledDice && ReadMoney >= 0);
+            //SHOW UI
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, hasChanceJailFreeCard, hasCommunityJailFreeCard);
+        }
     }
     internal bool CanAffordNode(int price)
     { 
@@ -97,7 +119,7 @@ public class Player
 
     void SortPropertiesByPrice()
     {        
-        myMonopolyNodes.OrderBy(_node => _node.price).ToList();
+        myMonopolyNodes = myMonopolyNodes.OrderBy(_node => _node.price).ToList();
      }
 
     internal void PayRent(int rentAmount, Player owner)
@@ -112,7 +134,7 @@ public class Player
             else
             {
                 //disable human tunr and roll dice
-                OnShowHumanPanel.Invoke(true, false, false);
+                OnShowHumanPanel.Invoke(true, false, false, hasChanceJailFreeCard, hasCommunityJailFreeCard);
 
             }
         }
@@ -136,11 +158,19 @@ public class Player
             {
                 //disable human turn and roll dice
                 OnShowHumanPanel.Invoke(true, false, false);
-
+            
             }
         }
         money -= amount;
         myInfo.SetPlayerCash(money);
+
+        if (playerType == PlayerType.Human && GameManager.instance.GetCurrentPlayer == this)
+        {
+            bool canEndTurn = !GameManager.instance.RolledDouble && ReadMoney >= 0;
+            bool canRollDice = GameManager.instance.RolledDouble && ReadMoney >= 0;
+            //SHOW UI
+            OnShowHumanPanel.Invoke(true, canRollDice, canEndTurn, hasChanceJailFreeCard, hasCommunityJailFreeCard);
+        }
     }
 
 
@@ -207,7 +237,7 @@ public class Player
 
     //handle insufficent funds
 
-    void HandleInsuficientFunds(int amountToPay)
+    public void HandleInsuficientFunds(int amountToPay)
     {
         int housesToSell = 0; //houses to sell
         int allHouses = 0;
@@ -259,7 +289,10 @@ public class Player
                 }
             }
         }
-        Bankrupt();
+        if(playerType == PlayerType.AI)
+        {
+            Bankrupt();
+        }
 
     }
 
@@ -275,6 +308,17 @@ public class Player
         {
             myMonopolyNodes[i].ResetNode();
         }
+
+        if(hasChanceFreeCard)
+        {
+            ChanceField.instance.AddBackJailFreeCard();
+        }
+
+        if(hasCommunityFreeCard)
+        {
+            CommunityChest.instance.AddBackJailFreeCard();
+        }
+
         //remove the player
         GameManager.instance.RemovePlayer(this);
     }
@@ -298,75 +342,72 @@ public class Player
     }
 
         //chech if a player has a property set
-        void ChecckIfPlayerHasASet()
+    void ChecckIfPlayerHasASet()
+    {
+        //call it only once per set
+        List<MonopolyNode> processedSet = null;
+        //store and compare
+
+
+        foreach (var node in myMonopolyNodes)
         {
-            //call it only once per set
-            List<MonopolyNode> processedSet = null;
-            //store and compare
+            var (list, allSame) = MonopolyBoard.instance.PlayerHasAllNodesofSet(node);
 
-
-            foreach (var node in myMonopolyNodes)
+            if (!allSame)
             {
-                var (list, allSame) = MonopolyBoard.instance.PlayerHasAllNodesofSet(node);
+                continue;
+            }
 
-                if (!allSame)
+            List<MonopolyNode> nodeSet = list;
+            if (nodeSet != null && nodeSet != processedSet)
+            {
+                bool hasMorgagedNode = nodeSet.Any(node => node.IsMortgaged) ? true : false;
+                if (!hasMorgagedNode)
                 {
-                    continue;
-                }
-
-                List<MonopolyNode> nodeSet = list;
-                if (nodeSet != null && nodeSet != processedSet)
-                {
-                    bool hasMorgagedNode = nodeSet.Any(node => node.IsMortgaged) ? true : false;
-                    if (!hasMorgagedNode)
+                    if (nodeSet[0].monopolyNodeType == MonopolyNodeType.Property)
                     {
-                        if (nodeSet[0].monopolyNodeType == MonopolyNodeType.Property)
-                        {
-                            //we could build a house on the set
-                            BuildHouseOrHotelEvenly(nodeSet);
-                            //update process set
-                            processedSet = nodeSet;
-                        }
+                        //we could build a house on the set
+                        BuildHouseOrHotelEvenly(nodeSet);
+                        //update process set
+                        processedSet = nodeSet;
                     }
                 }
             }
         }
+    }
 
-        internal void BuildHouseOrHotelEvenly(List<MonopolyNode> nodesToBuildOn)
+    internal void BuildHouseOrHotelEvenly(List<MonopolyNode> nodesToBuildOn)
+    {
+        int minHouses = int.MaxValue;
+        int maxHouses = int.MinValue;
+        //get min and max numbers of houses currently on the propertys
+        foreach (var node in nodesToBuildOn)
         {
-            int minHouses = int.MaxValue;
-            int maxHouses = int.MinValue;
-            //get min and max numbers of houses currently on the propertys
-            foreach (var node in nodesToBuildOn)
+            int numOfHouses = node.NumberOfHouses;
+            if (numOfHouses < minHouses)
             {
-                int numOfHouses = node.NumberOfHouses;
-                if (numOfHouses < minHouses)
-                {
-                    minHouses = numOfHouses;
-                }
-                if (numOfHouses > maxHouses && numOfHouses < 5)
-                {
-                    maxHouses = numOfHouses;
-                }
+                minHouses = numOfHouses;
             }
-
-            foreach (var node in nodesToBuildOn)
+            if (numOfHouses > maxHouses && numOfHouses < 5)
             {
-                if (node.NumberOfHouses == minHouses && node.NumberOfHouses < 5 && CanAffordHouse(node.houseCost))
-                {
-                    node.BuildHouseOrHotel();
-                    PayMoney(node.houseCost);
-                    break;
-                }
+                maxHouses = numOfHouses;
             }
-
-
-           
-            
         }
+
+        foreach (var node in nodesToBuildOn)
+        {
+            if (node.NumberOfHouses == minHouses && node.NumberOfHouses < 5 && CanAffordHouse(node.houseCost))
+            {
+                node.BuildHouseOrHotel();
+                PayMoney(node.houseCost);
+                break;
+            }
+        }
+    }
     internal void SellHouseEvenly(List<MonopolyNode> nodesToSellFrom)
     {
         int minHouses = int.MaxValue;
+        bool houseSold = false;
         foreach (var node in nodesToSellFrom)
         {  
             minHouses = Mathf.Min(minHouses, node.NumberOfHouses);
@@ -378,9 +419,14 @@ public class Player
             if (nodesToSellFrom[i].NumberOfHouses > minHouses)
             {
                CollectMoney( nodesToSellFrom[i].SellHouseOrHotel());
-                break;
+               houseSold = true;
+               break;
             }
 
+        }
+        if(!houseSold)
+        {
+            CollectMoney(nodesToSellFrom[nodesToSellFrom.Count-1].SellHouseOrHotel());
         }
 
     }
@@ -412,4 +458,63 @@ public class Player
         myMonopolyNodes.Remove(node);
         SortPropertiesByPrice();
     }
- }
+
+    public void ChangeState(AiStates state)
+    {
+        if (playerType == PlayerType.Human)
+        {
+            return;
+        }
+
+        aiState = state;
+        switch (aiState)
+        {
+            case AiStates.IDLE:
+                {
+                    //continue game
+                    GameManager.instance.Continue();
+                }
+                break;
+            case AiStates.TRADING:
+                {
+                    //hold until continue
+                    TradingSystem.instance.FindMissingProperty(this);
+                }
+                break;
+        }
+
+        //jail free card
+        public void AddChanceJailFreeCard()
+        {
+            hasChanceJailFreeCard = true;
+        }
+
+        public void AddCommunityJailFreeCard()
+        {
+            hasCommunityJailFreeCard = true;
+        }
+
+        public void UseCommunityJailFreeCard()//jail2
+        {
+            if(!IsInJail)
+            {
+                return;
+            }
+            hasCommunityJailFreeCard = false;
+            SetOutOfJail();
+            CommunityChest.instance.AddBackJailFreeCard();
+            OnUpdateMessage.Invoke(name + " used a Jail Free Card.");
+        }
+
+        public void UseChanceJailFreeCard()//jail1
+        {
+            if (!IsInJail)
+            {
+                return;
+            }
+            hasChanceJailFreeCard = false;
+            SetOutOfJail();
+            ChanceField.instance.AddBackJailFreeCard();
+            OnUpdateMessage.Invoke(name + " used a Jail Free Card.");
+        }
+    }
