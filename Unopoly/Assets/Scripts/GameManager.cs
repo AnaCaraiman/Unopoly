@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Dice _dice2;
 
     //rolling dice info
-    List<int> rolledDice;
+    List<int> rolledDice = new List<int>();
     bool rolledADouble;
     public bool RolledDouble => rolledADouble;
     public void ResetRolledDouble() => rolledADouble = false;
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void RollPhysicalDice()
+    public void RollPhysicalDice()
     {
         CheckForJailFree();
         rolledDice.Clear();
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public void  RollDice() //press button from human or auto ai
+    void  RollDice() //press button from human or auto ai
     {
         bool allowedToMove = true;
         hasRolledDice = true;
