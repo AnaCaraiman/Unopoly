@@ -535,6 +535,7 @@ GameObject:
   - component: {fileID: 4736275837508662496}
   - component: {fileID: 5827746016386337952}
   - component: {fileID: 2290045787085576366}
+  - component: {fileID: 5101297510883349421}
   m_Layer: 5
   m_Name: TradeCardPrefab
   m_TagString: Untagged
@@ -601,6 +602,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5101297510883349421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397795031537580630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b0be6021e87ac43b58184484c74315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorField: {fileID: 8273036276209303246}
+  propertyNameText: {fileID: 8003966686375532267}
+  typeImage: {fileID: 6058951628625312842}
+  houseSprite: {fileID: -324130086, guid: f4b07809c785ccc499e61e17221f9a4b, type: 3}
+  railroadSprite: {fileID: -2027108883, guid: f4b07809c785ccc499e61e17221f9a4b, type: 3}
+  utilitySprite: {fileID: -1313872581, guid: f4b07809c785ccc499e61e17221f9a4b, type: 3}
+  mortgageImage: {fileID: 659322085769272595}
+  propertyPriceText: {fileID: 3085496007595353448}
+  toggleButton: {fileID: 6115780965241032952}
 --- !u!1 &7176413137797619613
 GameObject:
   m_ObjectHideFlags: 0
