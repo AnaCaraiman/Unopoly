@@ -306,9 +306,9 @@ RectTransform:
   - {fileID: 187920605784658452}
   m_Father: {fileID: 1115098049709843118}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1037.35, y: -192.81}
   m_SizeDelta: {x: 317.18, y: 334.6207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1538933932346388162
@@ -462,7 +462,6 @@ GameObject:
   - component: {fileID: 1115098049709843118}
   - component: {fileID: 1660801455317001024}
   - component: {fileID: 1250594868959017791}
-  - component: {fileID: 4544990491690515780}
   - component: {fileID: 6747728123814397426}
   - component: {fileID: 6112247136091157274}
   m_Layer: 5
@@ -531,32 +530,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4544990491690515780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2657878159763875075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &6747728123814397426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +568,7 @@ MonoBehaviour:
   sellHouseButton: {fileID: 7590651879919918328}
   buyHousePriceText: {fileID: 1235769377169509028}
   sellHousePriceText: {fileID: 649971459887263675}
+  buttonBox: {fileID: 0}
 --- !u!1 &3120465421525491808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,10 +1058,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1115098049709843118}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 878.76, y: 424.38}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 606.2039, y: -192.81}
+  m_SizeDelta: {x: 1212.368, y: 424.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6279533400019583429
 CanvasRenderer:
