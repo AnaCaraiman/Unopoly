@@ -3,7 +3,7 @@
 Created Monopoly (the classic game) in Unity but implemented the 3D version (impressive animations) using a Barbie inspired theme by a Barbie inspired team: [Caraiman Ana](https://github.com/AnaCaraiman), [Caramaliu Nicoleta](https://github.com/NicoletaCaramaliu), [Manolache Diana](https://github.com/DianaManolache), [Radu Raluca](https://github.com/RaduRalucag) and [Vatau Lorena](https://github.com/vataulorena).         
 
 ### Demo
-You can check out our demo [here](https://www.youtube.com/).
+You can check out our demo [here](https://www.youtube.com/watch?v=sjDiNvgfoe8).
 ## Requirements 
 ### User stories and backlog creation
 
